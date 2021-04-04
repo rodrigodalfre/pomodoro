@@ -1,0 +1,306 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+
+
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, img{  
+    margin: 0;  
+    padding: 0;  
+    border: 0;  
+    font-size: 100%;  
+    vertical-align: baseline; 
+}
+
+body{
+    background: #1e2140;
+    font-family: 'Varela Round', sans-serif;
+}
+
+.container{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#pomodoro{
+    margin-top: 20px;
+    text-align: center;
+    font-size: 60px;
+    color: white;
+    font-weight: 600;
+    text-shadow: 2px 2px black;
+}
+
+#options{
+    margin-top: 40px;
+    text-align: center;
+}
+
+#options ul{
+    display: inline-block;
+    padding: 8px 8px;
+    margin: 0px;
+    list-style: none;
+    background: #151932;
+    -webkit-border-radius: 100px;
+    border-radius: 100px;
+}
+
+#options ul li {
+    display: inline;
+}
+
+.button{
+    color: #9c9c9c;
+    background: #151932;
+    border: 1px solid #151932;
+    font-size: 17px;
+    padding: 15px 17px;
+    -webkit-border-radius: 100px;
+    border-radius: 100px;
+    cursor:pointer;
+}
+
+/* Classe deveria ser feita no JS */
+.active {
+    background: #4D4DFF;
+    border: 1px solid #4D4DFF;
+    color: #151932;
+    font-weight: 600;
+}
+
+svg {
+    display: block;
+    align-items: center;
+}
+
+#gear {
+    margin: 20px auto;
+    fill: #b1b1b1;
+    cursor: pointer;
+}
+
+#gear:hover{
+    animation-name: gear-rotate;
+    /* animation-duration: infinite; */
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes gear-rotate{
+    0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+/* Modal */
+
+.modal{
+    display: block;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    width: 40%; /* Could be more or less, depending on screen size */
+}
+
+h3{
+    letter-spacing: 3px;
+    font-size: 15px;
+    font-weight: 300;
+    display: inline;
+}
+
+label{
+    margin: 2px;
+}
+
+.modal-header {
+    padding-top: 5px;
+    padding-bottom: 15px;
+    font-size: 30px;
+    border-bottom: 1px solid #b1b1b1;
+}
+
+.modal-time{
+    margin-top: 15px;
+}
+
+.time-input{
+    padding: 10px;
+    width: 100px;
+    height: 25px;
+    background: #eef1fa;
+    border-radius: 10px;
+    border: none;
+    -moz-appearance: textfield;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.time-input:focus,
+.time-input:active{
+    outline: none;
+}
+
+/* Modal-Colors */
+.modal-colors{
+    margin-top: 15px;
+    padding-top: 30px;
+    padding-bottom: 5px;
+    border-top: 1px solid #b1b1b1;
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-colors h3{
+    margin-top: 10px;
+}
+
+
+.button-color{
+    display: inline;
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+    border: none;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.input-blue{
+    background:#4D4DFF;
+}
+
+.input-red{
+    background:#ff4d4d;
+}
+
+.input-green{
+    background:#4dff5c;
+}
+
+/* Criar em JavaScript */
+.active-color{
+    opacity: 1.0;
+}
+
+
+/* SALVAR  */
+
+.modal-save{
+    text-align: center;
+}
+
+.save-option{
+    border: none;
+    height: 50px;
+    width: 130px;
+    position: relative;
+    background: #4D4DFF;
+    color: #fefefe;
+    font-weight: 600;
+    bottom: -40px;
+    border-radius: 30px;
+    cursor: pointer;
+}   
+
+
+/* ____________________________________________ */
+
+.pomodoro-options{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.time-options{
+    display:flex;
+    flex-direction: column;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  cursor: pointer;
+}
+
+
+/* Pomodoro Clock */
+
+#timer {
+    margin: 35px auto;
+    padding: 0;
+    height: 370px;
+    width: 370px;
+    background: rgb(18,22,49);
+    background: linear-gradient(0deg, rgba(18,22,49,1) 25%, rgba(41,45,82,1) 100%);
+    box-shadow: black;
+    box-shadow: 0px 50px 100px #262a57, 0px -50px 100px #151932;
+    transform: rotate(130deg);
+    text-align: center;
+    display: block;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+}
+
+#circle {
+    transform: rotate(-130deg);
+    position: relative;
+    top: 15px;
+    left: 15px;
+    height: 340px;
+    width: 340px;
+    background: #151932;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+}
+
+#time{
+    position: relative;
+    top: 35%;
+    display: inline;
+    color: white;
+    font-size: 80px;
+    letter-spacing: 1.3px;
+}
+
+#status{
+    color: white;
+    position: relative;
+    top: 45%;
+    letter-spacing: 8px;
+    font-weight: 400;
+}
+
+#myCanvas{
+    transform: rotate(-90deg);
+    position: relative;
+    top: -105px;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+}
+
