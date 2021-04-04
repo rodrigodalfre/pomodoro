@@ -57,6 +57,7 @@ body{
     -webkit-border-radius: 100px;
     border-radius: 100px;
     cursor:pointer;
+    outline: none;
 }
 
 /* Classe deveria ser feita no JS */
@@ -96,9 +97,8 @@ svg {
 }
 
 /* Modal */
-
 .modal{
-    display: block;
+    display: none;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -157,7 +157,7 @@ label{
 
 .time-input{
     padding: 10px;
-    width: 100px;
+    width: 60%;
     height: 25px;
     background: #eef1fa;
     border-radius: 10px;
@@ -195,6 +195,11 @@ label{
     border: none;
     cursor: pointer;
     opacity: 0.5;
+    outline: none;
+}
+
+.button-color:hover{
+    transform: scale(1.1);
 }
 
 .input-blue{
@@ -231,6 +236,9 @@ label{
     bottom: -40px;
     border-radius: 30px;
     cursor: pointer;
+}
+.save-option:hover{
+    transform: scale(1.1);
 }   
 
 /* Modal-Close Button */
