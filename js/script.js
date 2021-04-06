@@ -38,30 +38,48 @@ window.addEventListener('click', (event) => {
 //Apply Button & Settings
 apply.addEventListener('click', () => {
 
+    //Time
     let pomodoroTime = document.getElementById('pomodoro-option').value
-    //ValorTeste
+    let shortTime = document.getElementById('short-option').value
+    let longTime = document.getElementById('long-option').value
+
+    //Color
+    let colorValue = document.querySelector('input[name="input-color"]:checked').value
 
     //setTime
-    setTime(pomodoroTime)
-    //progressBar(time, color)
-
-    setColor('azul')
-    //changeColor(color)
+    setTime(pomodoroTime, shortTime, longTime)
+    
+    //setColor
+    setColor(colorValue)
 
     modal.style.display = 'none'
 })
 
-//Teste//
-function setTime(time){
 
-    console.log(time)
+//Set Time & Set Color
+function setTime(pomodoro, shortBreak, longBreak){
+
+    console.log(pomodoro, shortBreak, longBreak)
+    //progressBar(time, color)
 
 }
 
-function setColor(color){
+function setColor(colorValue){
 
-    console.log(color)
+    let color = colorValue
 
+    switch(color){
+        case 'blue':
+            console.log('teste azul')
+            break
+        case 'red':
+            console.log('teste red')
+            break
+        case 'green':
+            console.log('teste green')
+            break
+        
+    }
 }
 
 
