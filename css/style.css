@@ -98,7 +98,7 @@ svg {
 
 /* Modal */
 .modal{
-    display: none;
+    display: block;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -186,39 +186,48 @@ label{
     margin-top: 10px;
 }
 
+/* Input Radio */
+.input-colors input[type='radio'] {
+    display: none;
+}
 
-.button-color{
-    display: inline;
-    height: 40px;
-    width: 40px;
-    border-radius: 100%;
-    border: none;
+.input-colors label, .input-colors label::before{
     cursor: pointer;
-    opacity: 0.5;
-    outline: none;
+    display: inline-block;
+    vertical-align: middle;
 }
 
-.button-color:hover{
-    transform: scale(1.1);
+.input-colors label::before {
+    border-radius: 50%;
+    content: '';
+    height: 35px;
+    width: 35px;
 }
 
-.input-blue{
-    background:#4D4DFF;
+.input-colors input[type='radio']:checked + label::before{
+    color: #000000;
+    content: "✓";
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 35px;
+    text-align: center;
+    vertical-align: middle;
 }
 
-.input-red{
-    background:#ff4d4d;
+.blue + label {
+    background: #4D4DFF;
+    border-radius: 50%;
 }
 
-.input-green{
-    background:#4dff5c;
+.red + label {
+    background: #ff4d4d;
+    border-radius: 50%;
 }
 
-/* Criar em JavaScript */
-.active-color{
-    opacity: 1.0;
+.green + label {
+    background: #4dff5c;
+    border-radius: 50%;
 }
-
 
 /* Modal-save  */
 .modal-save{

@@ -38,24 +38,32 @@ window.addEventListener('click', (event) => {
 //Apply Button & Settings
 apply.addEventListener('click', () => {
 
+    let pomodoroTime = document.getElementById('pomodoro-option').value
+    //ValorTeste
+
     //setTime
+    setTime(pomodoroTime)
     //progressBar(time, color)
 
-    //setColor
+    setColor('azul')
     //changeColor(color)
-
-    umTeste('azul')
-    
 
     modal.style.display = 'none'
 })
 
 //Teste//
-function umTeste(color){
+function setTime(time){
+
+    console.log(time)
+
+}
+
+function setColor(color){
 
     console.log(color)
 
 }
+
 
 const teste = document.getElementById('myCanvas')
 
