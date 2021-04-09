@@ -29,6 +29,7 @@ body{
     text-shadow: 2px 2px black;
 }
 
+
 #options{
     margin-top: 40px;
     text-align: center;
@@ -48,7 +49,7 @@ body{
     display: inline;
 }
 
-.button{
+.buttonType{
     color: #9c9c9c;
     background: #151932;
     border: 1px solid #151932;
@@ -61,12 +62,6 @@ body{
 }
 
 /* Classe deveria ser feita no JS */
-.active {
-    background: #4D4DFF;
-    border: 1px solid #4D4DFF;
-    color: #151932;
-    font-weight: 600;
-}
 
 svg {
     display: block;

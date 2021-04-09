@@ -20,9 +20,9 @@
 
         <div id="options">
             <ul>
-                <li><button class="button active">pomodoro</button></li>
-                <li><button class="button">short break</button></li>
-                <li><button class="button" >long break</button></li>
+                <li><button id="btnPomodoro" class="buttonType" value="0" checked>pomodoro</button></li>
+                <li><button id="btnShort" class="buttonType"  value="1">short break</button></li>
+                <li><button id="btnLong" class="buttonType" value="2">long break</button></li>
             </ul>
         </div>
 
@@ -76,7 +76,7 @@
                 <div class="modal-colors">
                     <h3>COLOR</h3>
                     <div class="input-colors">
-                        <input id="blue" type="radio" class="input-colors blue" name="input-color" value="blue">
+                        <input id="blue" type="radio" class="input-colors blue" name="input-color" value="blue" checked>
                         <label for="blue"></label>
                         
                         <input id="red" type="radio" class="input-colors red" name="input-color" value="red">
