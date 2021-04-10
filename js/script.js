@@ -12,6 +12,9 @@
 
 //Easter Egg
 
+//Variables
+
+
 //Modal & settings
 let settings = document.getElementById('gear') //Settings
 let modal = document.getElementById('modal') //Modal-Settings
@@ -39,18 +42,21 @@ window.addEventListener('click', (event) => {
 apply.addEventListener('click', () => {
 
     //Time
-    let pomodoroTime = document.getElementById('pomodoro-option').value //Pomodoro Time
-    let shortTime = document.getElementById('short-option').value //Short Break Time
-    let longTime = document.getElementById('long-option').value //Long Break Time
+    let pomodoroValue = document.getElementById('pomodoro-option').value //Pomodoro Time
+    let shortValue = document.getElementById('short-option').value //Short Break Time
+    let longValue = document.getElementById('long-option').value //Long Break Time
 
     //Color
     let colorValue = document.querySelector('input[name="input-color"]:checked').value //Input Color
 
     //setTime
-    setTime(pomodoroTime, shortTime, longTime)
+    // setTime(pomodoroTime, shortTime, longTime)
+    timeSettings.pomodoroT = shortValue
+    console.log(timeSettings.pomodoroT)
     
     //setColor
-    setColor(colorValue)
+    colorSettings.ColorName = colorValue
+    setStyle() //Set Color and display.
 
     //Close Modal
     modal.style.display = 'none'
@@ -58,24 +64,60 @@ apply.addEventListener('click', () => {
 
 
 //Set Time & Set Color
-function setTime(pomodoro, shortBreak, longBreak){
+let colorSettings = {
 
-    console.log(pomodoro, shortBreak, longBreak)
-    //progressBar(time, color)
+    //Color
+    color: '',
+    
+    //Color
+    get colorName () {
+        return this.color
+    },
+
+    set colorName (value) {    
+        this.color = value
+    }
+}
+
+let timeSettings = {
+
+    //Time
+    pomodoro: '',
+    shortBreak: '',
+    longBreak: '',
+
+    get pomodoroT () {
+        return this.pomodoro
+    },
+
+    set pomodoroT (value) {    
+        this.pomodoro = value
+    },
+
+    // get pomodoroT () {
+    //     return this.pomodoro
+    // },
+
+    // set pomodoroT (value) {    
+    //     this.pomodoro = value
+    // },
+
+    // get pomodoroT () {
+    //     return this.pomodoro
+    // },
+
+    // set pomodoroT (value) {    
+    //     this.pomodoro = value
+    // },
 
 }
 
 
-function setColor(colorValue){
 
-    let color = colorValue
+function changeColor(element){
 
-    console.log(color)
-
-    //Elements
-    let pomodoro = document.getElementById("btnPomodoro")
-    let shortBreak = document.getElementById("btnShort")
-    let longBreak = document.getElementById("btnLong")
+    //Variable for switch
+    color = colorSettings.ColorName
 
     switch(color){
         case 'blue':
@@ -91,68 +133,80 @@ function setColor(colorValue){
             secondColor = '#008000' //Green
             break
     }
-
-    //A class setColor/Time pode ser um controller
-    //Adicionar changeColor mainColor e secondColor
-    //na classe SetColor, adicionar no switch a função changeColor
-    function changeColor(element){
-        element.style.background = mainColor
-        element.style.border = '1px solid' + mainColor
-        element.style.color = '#151932'
-        element.style.fontWeight = '600'
-    }
-
-
-    let buttonType = document.querySelectorAll('.buttonType')
-
-    function selectElement(){
-        for(i = 0; i < buttonType.length; i++){
-
-            click(buttonType[i], i)
-
-        }
-    }
-
-    //Window.Load
-    // changeColor(buttonType[0])
-
-    // window.addEventListener('load', () => {
-    //     console.log('page is fully loaded');
-    // });
-
     
-
-    function click(element = 'btnPomodoro', value = 0){
-        element.addEventListener('click', () => {
-
-            console.log(element.id)
-
-            //Re-do the code
-            switch(value){
-                case 0:
-                    buttonType[1].removeAttribute("style")
-                    buttonType[2].removeAttribute("style")
-                    changeColor(element)
-                case 1:
-                    buttonType[0].removeAttribute("style")
-                    buttonType[2].removeAttribute("style")
-                    changeColor(element)
-                case 2: 
-                    buttonType[0].removeAttribute("style")
-                    buttonType[1].removeAttribute("style")
-                    changeColor(element)
-            }
-
-        })
-    }
-    selectElement()
-    //Pensar em alguma alternativa para remover ||
-    //Adicionar setTime/Color em uma única função junto com o cronometro + canvas
-    //Selecionar o ID pelo click e deixar default o resto
-
-    //console.log(pomodoro, shortBreak, longBreak)
-
+    //class active(pomodoro, shortBreak, longBreak)
+    element.style.background = mainColor
+    element.style.border = '1px solid' + mainColor
+    element.style.color = '#151932'
+    element.style.fontWeight = '600'
 }
+
+
+let buttonType = document.querySelectorAll('.buttonType')
+
+function selectElement(){
+    for(i = 0; i < buttonType.length; i++){
+
+        click(buttonType[i], i)
+
+    }
+}
+
+function clearStyle() {
+    for(i = 0; i < buttonType.length; i++){
+
+        buttonType[i].removeAttribute("style")
+
+    }
+}
+
+function setStyle() {
+    for(i = 0; i < buttonType.length; i++){
+
+        if(buttonType[i].hasAttribute('Style')){
+            changeColor(buttonType[i])
+            break
+        }
+
+    }
+}
+
+//Window.Load first time
+window.addEventListener('load', () => {
+    changeColor(buttonType[0])
+});
+
+//if its second time load, reload with the color of the input radio
+if(!setStyle()){
+    let colorValue = document.querySelector('input[name="input-color"]:checked').value //Input Color
+    colorSettings.ColorName = colorValue
+}
+
+
+function click(element, value){
+    element.addEventListener('click', () => {
+
+        switch(value){
+            case 0:
+                clearStyle()
+                changeColor(element)
+                break
+            case 1:
+                clearStyle()
+                changeColor(element)
+                break
+            case 2:
+                clearStyle() 
+                changeColor(element)
+                break
+        }
+    })
+}
+selectElement()
+//Adicionar setTime/Color em uma única função junto com o cronometro + canvas
+//Selecionar o ID pelo click e deixar default o resto
+
+//console.log(pomodoro, shortBreak, longBreak)
 
 
 
