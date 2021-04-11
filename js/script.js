@@ -1,6 +1,6 @@
 
 
-//function changeColor ||Mudança de cores no perfil
+//function switchColor ||Mudança de cores no perfil
 //Para isso é necessário terminar o CSS primeiro. ||Modal, logoNeon, ||relógio pomodoro
 
 //function action ||Mudança de action(pomodoro, shortbreak..). Alterando classe(active) e sua operação
@@ -51,8 +51,9 @@ apply.addEventListener('click', () => {
 
     //setTime
     // setTime(pomodoroTime, shortTime, longTime)
-    timeSettings.pomodoroT = shortValue
-    console.log(timeSettings.pomodoroT)
+    timeSettings.pomodoroTime = pomodoroValue
+    timeSettings.shortTime = shortValue
+    timeSettings.longTime = longValue
     
     //setColor
     colorSettings.ColorName = colorValue
@@ -68,6 +69,8 @@ let colorSettings = {
 
     //Color
     color: '',
+    mainColor: '',
+    secondColor: '',
     
     //Color
     get colorName () {
@@ -86,35 +89,35 @@ let timeSettings = {
     shortBreak: '',
     longBreak: '',
 
-    get pomodoroT () {
+    get pomodoroTime () {
         return this.pomodoro
     },
 
-    set pomodoroT (value) {    
+    set pomodoroTime (value) {    
         this.pomodoro = value
     },
 
-    // get pomodoroT () {
-    //     return this.pomodoro
-    // },
+    get shortTime () {
+        return this.shortBreak
+    },
 
-    // set pomodoroT (value) {    
-    //     this.pomodoro = value
-    // },
+    set shortTime (value) {    
+        this.shortBreak = value
+    },
 
-    // get pomodoroT () {
-    //     return this.pomodoro
-    // },
+    get longTime () {
+        return this.longBreak
+    },
 
-    // set pomodoroT (value) {    
-    //     this.pomodoro = value
-    // },
+    set longTime (value) {    
+        this.longBreak = value
+    },
 
 }
 
 
 
-function changeColor(element){
+function switchColor(element){
 
     //Variable for switch
     color = colorSettings.ColorName
@@ -133,6 +136,7 @@ function changeColor(element){
             secondColor = '#008000' //Green
             break
     }
+    
     
     //class active(pomodoro, shortBreak, longBreak)
     element.style.background = mainColor
@@ -164,7 +168,8 @@ function setStyle() {
     for(i = 0; i < buttonType.length; i++){
 
         if(buttonType[i].hasAttribute('Style')){
-            changeColor(buttonType[i])
+            switchColor(buttonType[i])
+            progressBar()
             break
         }
 
@@ -173,7 +178,7 @@ function setStyle() {
 
 //Window.Load first time
 window.addEventListener('load', () => {
-    changeColor(buttonType[0])
+    switchColor(buttonType[0])
 });
 
 //if its second time load, reload with the color of the input radio
@@ -189,15 +194,15 @@ function click(element, value){
         switch(value){
             case 0:
                 clearStyle()
-                changeColor(element)
+                switchColor(element)
                 break
             case 1:
                 clearStyle()
-                changeColor(element)
+                switchColor(element)
                 break
             case 2:
                 clearStyle() 
-                changeColor(element)
+                switchColor(element)
                 break
         }
     })
@@ -210,7 +215,7 @@ selectElement()
 
 
 
-const teste = document.getElementById('myCanvas')
+const teste = document.getElementById('progressBar')
 
 teste.addEventListener('click', () => {
     
@@ -218,11 +223,7 @@ teste.addEventListener('click', () => {
 
 })
 
-
-//progressBar(time, color)
-//Progress Bar                          \/ Switch to progressBar
-
-let canvas = document.getElementById('myCanvas')
+let canvas = document.getElementById('progressBar')
 let context = canvas.getContext('2d')
 let centerX = canvas.width / 2
 let centerY = canvas.height / 2
@@ -240,10 +241,37 @@ context.beginPath()
 context.arc(centerX, centerY, radius, 0.5, 2 * Math.PI)
 context.fillStyle = 'transparent'
 context.lineWidth = 10
-context.strokeStyle = '#4D4DFF' //color
-context.shadowColor = 'blue'; //shadow
-context.shadowBlur = 16;
+context.shadowBlur = 16
 context.stroke()
+
+//progressBar(time, color)
+//Progress Bar                    
+let progressBar = function() {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    let color = colorSettings.ColorName
+
+    switch(color){
+        case 'blue':
+            mainColor = '#4D4DFF' //neon: blue
+            secondColor = '#0000ff' //Blue
+            break
+        case 'red':
+            mainColor = '#ff4d4d' //neon: red
+            secondColor = '#ff0000' //Red
+            break
+        case 'green':
+            mainColor = '#4dff5c' //neon: green
+            secondColor = '#008000' //Green
+            break
+    }
+
+    context.strokeStyle = mainColor //color
+    context.shadowColor = secondColor //shadow
+    context.stroke()
+    
+}
+
+progressBar()
 
 
 

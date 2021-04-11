@@ -306,7 +306,7 @@ label{
     font-weight: 400;
 }
 
-#myCanvas{
+#progressBar{
     transform: rotate(-90deg);
     position: relative;
     top: -105px;
