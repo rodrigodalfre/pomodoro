@@ -56,7 +56,7 @@ apply.addEventListener('click', () => {
     timeSettings.longTime = longValue
     
     //setColor
-    colorSettings.ColorName = colorValue
+    colorSettings.setColor = colorValue
     setStyle() //Set Color and display.
 
     //Close Modal
@@ -69,15 +69,13 @@ let colorSettings = {
 
     //Color
     color: '',
-    mainColor: '',
-    secondColor: '',
     
     //Color
-    get colorName () {
+    get setColor () {
         return this.color
     },
 
-    set colorName (value) {    
+    set setColor (value) {    
         this.color = value
     }
 }
@@ -89,24 +87,12 @@ let timeSettings = {
     shortBreak: '',
     longBreak: '',
 
-    get pomodoroTime () {
-        return this.pomodoro
-    },
-
     set pomodoroTime (value) {    
         this.pomodoro = value
     },
 
-    get shortTime () {
-        return this.shortBreak
-    },
-
     set shortTime (value) {    
         this.shortBreak = value
-    },
-
-    get longTime () {
-        return this.longBreak
     },
 
     set longTime (value) {    
@@ -114,13 +100,14 @@ let timeSettings = {
     },
 
 }
-
+timeSettings.pomodoroTime = 25
+console.log(timeSettings.pomodoro)
 
 
 function switchColor(element){
 
     //Variable for switch
-    color = colorSettings.ColorName
+    color = colorSettings.color
 
     switch(color){
         case 'blue':
@@ -184,7 +171,7 @@ window.addEventListener('load', () => {
 //if its second time load, reload with the color of the input radio
 if(!setStyle()){
     let colorValue = document.querySelector('input[name="input-color"]:checked').value //Input Color
-    colorSettings.ColorName = colorValue
+    colorSettings.setColor = colorValue
 }
 
 
@@ -245,10 +232,11 @@ context.shadowBlur = 16
 context.stroke()
 
 //progressBar(time, color)
-//Progress Bar                    
+//Progress Bar                   
 let progressBar = function() {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    let color = colorSettings.ColorName
+    
+    let color = colorSettings.color
+    console.log(color)
 
     switch(color){
         case 'blue':
@@ -264,7 +252,7 @@ let progressBar = function() {
             secondColor = '#008000' //Green
             break
     }
-
+    context.clearRect(0, 0, canvas.width, canvas.height);
     context.strokeStyle = mainColor //color
     context.shadowColor = secondColor //shadow
     context.stroke()
