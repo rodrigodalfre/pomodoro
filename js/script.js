@@ -56,27 +56,49 @@ apply.addEventListener('click', () => {
     timeSettings.longTime = longValue
     
     //setColor
-    colorSettings.setColor = colorValue
+    selectColor(colorValue)
+    // colorSettings.setColor = colorValue
     setStyle() //Set Color and display.
 
     //Close Modal
     modal.style.display = 'none'
 })
 
+function selectColor(color){
+    switch(color){
+        case 'blue':
+            colorSettings.setMainColor = '#4D4DFF' //neon: blue
+            colorSettings.setSecondColor = '#0000ff' //Blue
+            break
+        case 'red':
+            colorSettings.setMainColor = '#ff4d4d' //neon: red
+            colorSettings.setSecondColor = '#ff0000' //Red
+            break
+        case 'green':
+            colorSettings.setMainColor = '#4dff5c' //neon: green
+            colorSettings.setSecondColor = '#008000' //Green
+            break
+    }
+}
 
 //Set Time & Set Color
 let colorSettings = {
 
     //Color
     color: '',
+    mainColor: '',
+    secondColor: '',
     
-    //Color
-    get setColor () {
-        return this.color
-    },
-
     set setColor (value) {    
         this.color = value
+    },
+
+    set setMainColor (value) {    
+        this.mainColor = value
+    },
+    
+    set setSecondColor (value) {    
+        this.secondColor = value
     }
 }
 
@@ -100,36 +122,24 @@ let timeSettings = {
     },
 
 }
+
+//Test
 timeSettings.pomodoroTime = 25
 console.log(timeSettings.pomodoro)
 
-
 function switchColor(element){
 
-    //Variable for switch
-    color = colorSettings.color
+    let mainColor = colorSettings.mainColor 
 
-    switch(color){
-        case 'blue':
-            mainColor = '#4D4DFF' //neon: blue
-            secondColor = '#0000ff' //Blue
-            break
-        case 'red':
-            mainColor = '#ff4d4d' //neon: red
-            secondColor = '#ff0000' //Red
-            break
-        case 'green':
-            mainColor = '#4dff5c' //neon: green
-            secondColor = '#008000' //Green
-            break
-    }
-    
+    let applyButton = document.getElementById('save-option')
     
     //class active(pomodoro, shortBreak, longBreak)
     element.style.background = mainColor
     element.style.border = '1px solid' + mainColor
     element.style.color = '#151932'
     element.style.fontWeight = '600'
+
+    applyButton.style.background = mainColor
 }
 
 
@@ -171,7 +181,7 @@ window.addEventListener('load', () => {
 //if its second time load, reload with the color of the input radio
 if(!setStyle()){
     let colorValue = document.querySelector('input[name="input-color"]:checked').value //Input Color
-    colorSettings.setColor = colorValue
+    selectColor(colorValue)
 }
 
 
@@ -219,7 +229,7 @@ let radius = 154
 context.lineCap = 'round'
 context.beginPath()
 context.arc(centerX, centerY, radius, 0, 2 * Math.PI)
-context.fillStyle = 'transparent'
+context.fillStyle = 'green'
 context.lineWidth = 10
 context.strokeStyle = '#151932'
 context.stroke()
@@ -228,31 +238,19 @@ context.beginPath()
 context.arc(centerX, centerY, radius, 0.5, 2 * Math.PI)
 context.fillStyle = 'transparent'
 context.lineWidth = 10
-context.shadowBlur = 16
+context.shadowOffsetX = 0
+context.shadowOffsetY = 0
+context.shadowBlur = 15
 context.stroke()
 
 //progressBar(time, color)
 //Progress Bar                   
 let progressBar = function() {
-    
-    let color = colorSettings.color
-    console.log(color)
+    context.clearRect(0, 0, canvas.width, canvas.height)
 
-    switch(color){
-        case 'blue':
-            mainColor = '#4D4DFF' //neon: blue
-            secondColor = '#0000ff' //Blue
-            break
-        case 'red':
-            mainColor = '#ff4d4d' //neon: red
-            secondColor = '#ff0000' //Red
-            break
-        case 'green':
-            mainColor = '#4dff5c' //neon: green
-            secondColor = '#008000' //Green
-            break
-    }
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    let mainColor = colorSettings.mainColor
+    let secondColor = colorSettings.secondColor
+
     context.strokeStyle = mainColor //color
     context.shadowColor = secondColor //shadow
     context.stroke()

@@ -234,7 +234,7 @@ label{
     height: 50px;
     width: 130px;
     position: relative;
-    background: #4D4DFF;
+    /* background: #4D4DFF; */
     color: #fefefe;
     font-weight: 600;
     bottom: -40px;
@@ -307,10 +307,11 @@ label{
 }
 
 #progressBar{
-    transform: rotate(-90deg);
+    transform: rotate(269deg);
     position: relative;
     top: -105px;
     border-radius: 100%;
     -webkit-border-radius: 100%;
+    -moz-border-radius: 100px;
 }
 
