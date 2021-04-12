@@ -240,6 +240,7 @@ label{
     bottom: -40px;
     border-radius: 30px;
     cursor: pointer;
+    outline: none;
 }
 .save-option:hover{
     transform: scale(1.1);
