@@ -288,9 +288,10 @@ label{
     background: #151932;
     border-radius: 100%;
     -webkit-border-radius: 100%;
+    cursor: pointer;
 }
 
-#time{
+.time{
     position: relative;
     top: 35%;
     display: inline;
@@ -299,7 +300,7 @@ label{
     letter-spacing: 1.3px;
 }
 
-#status{
+.status{
     color: white;
     position: relative;
     top: 45%;
@@ -315,4 +316,3 @@ label{
     -webkit-border-radius: 100%;
     -moz-border-radius: 100px;
 }
-

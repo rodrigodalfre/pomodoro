@@ -1,7 +1,6 @@
 
 
-//function switchColor ||Mudança de cores no perfil
-//Para isso é necessário terminar o CSS primeiro. ||Modal, logoNeon, ||relógio pomodoro
+// logoNeon
 
 //function action ||Mudança de action(pomodoro, shortbreak..). Alterando classe(active) e sua operação
 
@@ -11,8 +10,6 @@
 //~Bonus
 
 //Easter Egg
-
-//Variables
 
 
 //Modal & settings
@@ -49,16 +46,16 @@ apply.addEventListener('click', () => {
     //Color
     let colorValue = document.querySelector('input[name="input-color"]:checked').value //Input Color
 
-    //setTime
-    // setTime(pomodoroTime, shortTime, longTime)
+    // timeSettings(pomodoroTime, shortTime, longTime)
     timeSettings.pomodoroTime = pomodoroValue
     timeSettings.shortTime = shortValue
     timeSettings.longTime = longValue
-    
-    //setColor
+
+    //colorSettings
     selectColor(colorValue)
-    // colorSettings.setColor = colorValue
-    setStyle() //Set Color and display.
+
+    //Set Color/Time and display.
+    setOptions() 
 
     //Close Modal
     modal.style.display = 'none'
@@ -84,15 +81,9 @@ function selectColor(color){
 //Set Time & Set Color
 let colorSettings = {
 
-    //Color
-    color: '',
     mainColor: '',
     secondColor: '',
     
-    set setColor (value) {    
-        this.color = value
-    },
-
     set setMainColor (value) {    
         this.mainColor = value
     },
@@ -104,12 +95,12 @@ let colorSettings = {
 
 let timeSettings = {
 
-    //Time
-    pomodoro: '',
-    shortBreak: '',
-    longBreak: '',
+    //Time -Seconds
+    pomodoro: '25',
+    shortBreak: '5',
+    longBreak: '10',
 
-    set pomodoroTime (value) {    
+    set pomodoroTime (value) {
         this.pomodoro = value
     },
 
@@ -120,12 +111,7 @@ let timeSettings = {
     set longTime (value) {    
         this.longBreak = value
     },
-
 }
-
-//Test
-timeSettings.pomodoroTime = 25
-console.log(timeSettings.pomodoro)
 
 function switchColor(element){
 
@@ -141,7 +127,6 @@ function switchColor(element){
 
     applyButton.style.background = mainColor
 }
-
 
 let buttonType = document.querySelectorAll('.buttonType')
 
@@ -161,11 +146,12 @@ function clearStyle() {
     }
 }
 
-function setStyle() {
+function setOptions() {
     for(i = 0; i < buttonType.length; i++){
 
         if(buttonType[i].hasAttribute('Style')){
             switchColor(buttonType[i])
+            switchTime(i)
             progressBar()
             break
         }
@@ -176,10 +162,12 @@ function setStyle() {
 //Window.Load first time
 window.addEventListener('load', () => {
     switchColor(buttonType[0])
+    switchTime(0)
+    selectElement()
 });
 
 //if its second time load, reload with the color of the input radio
-if(!setStyle()){
+if(!setOptions()){
     let colorValue = document.querySelector('input[name="input-color"]:checked').value //Input Color
     selectColor(colorValue)
 }
@@ -189,36 +177,107 @@ function click(element, value){
     element.addEventListener('click', () => {
 
         switch(value){
-            case 0:
+            case 0: //Pomodoro
                 clearStyle()
                 switchColor(element)
+                switchTime(value)
                 break
-            case 1:
+                
+            case 1: //ShortBreak
                 clearStyle()
                 switchColor(element)
+                switchTime(value)
                 break
-            case 2:
+
+            case 2: //LongBreak
                 clearStyle() 
                 switchColor(element)
+                switchTime(value)
                 break
         }
     })
 }
-selectElement()
-//Adicionar setTime/Color em uma única função junto com o cronometro + canvas
-//Selecionar o ID pelo click e deixar default o resto
 
-//console.log(pomodoro, shortBreak, longBreak)
+function switchTime(value) {
 
+    switch(value){
+        case 0:
+            document.getElementById('time').innerHTML = timeSettings.pomodoro + ':00'
+            timer(timeSettings.pomodoro)
+            break
+        case 1:
+            document.getElementById('time').innerHTML = timeSettings.shortBreak + ':00'
+            timer(timeSettings.shortBreak)
+            break
+        case 2: 
+            document.getElementById('time').innerHTML = timeSettings.longBreak + ':00'
+            timer(timeSettings.longBreak)
+            break
+    }
+}
 
+function timeConvert(n){
 
-const teste = document.getElementById('progressBar')
+    //minutes
+    let minutes = (n / 60)
+    let rminutes = Math.floor(minutes)
 
-teste.addEventListener('click', () => {
+    //to seconds
+    let seconds = (minutes - rminutes) * 60
+    let rseconds = Math.round(seconds)
+
+    if(rseconds <= 9){
+        results = rminutes + ':0' + rseconds
+    } else{
+        results = rminutes + ':' + rseconds
+    }
     
-    alert('Oi matias....')
 
-})
+    document.getElementById('time').innerHTML = results
+}
+
+//Adicionar setTime/Color em uma única função junto com o cronometro + canvas
+
+const stopwatcher = document.getElementById('progressBar')
+let cron;
+
+let timer = function(n){
+    //to seconds 
+    let value = n * 60
+    let running = false
+    let status = document.getElementById('status') 
+
+         stopwatcher.addEventListener('click', () => {
+
+            if(!running){
+                cron = setInterval(function() {
+                    console.log(value)
+    
+                    value -= 1
+                    timeConvert(value)
+    
+                    if(value === 0){
+                        clearTime(cron)
+                    }
+                }, 1000)
+                status.innerHTML = 'PAUSE'
+                running = true
+            } else{
+
+                clearTime()
+                status.innerHTML = 'START'
+                running = false
+            }
+
+        })
+}
+
+function clearTime(cron){
+    clearInterval(cron)
+    console.log('teste')
+}
+    
+
 
 let canvas = document.getElementById('progressBar')
 let context = canvas.getContext('2d')
@@ -229,7 +288,7 @@ let radius = 154
 context.lineCap = 'round'
 context.beginPath()
 context.arc(centerX, centerY, radius, 0, 2 * Math.PI)
-context.fillStyle = 'green'
+context.fillStyle = 'transparent'
 context.lineWidth = 10
 context.strokeStyle = '#151932'
 context.stroke()
