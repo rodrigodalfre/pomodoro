@@ -95,10 +95,11 @@ let colorSettings = {
 
 let timeSettings = {
 
-    //Time -Seconds
+    //Time -Min -default
     pomodoro: '25',
     shortBreak: '5',
     longBreak: '10',
+    timer: '25', 
 
     set pomodoroTime (value) {
         this.pomodoro = value
@@ -111,6 +112,10 @@ let timeSettings = {
     set longTime (value) {    
         this.longBreak = value
     },
+
+    set setTimer (value){
+        this.timer = value
+    }
 }
 
 function switchColor(element){
@@ -164,6 +169,7 @@ window.addEventListener('load', () => {
     switchColor(buttonType[0])
     switchTime(0)
     selectElement()
+    stopWatcher()
 });
 
 //if its second time load, reload with the color of the input radio
@@ -175,23 +181,19 @@ if(!setOptions()){
 
 function click(element, value){
     element.addEventListener('click', () => {
-
+        clearStyle()
+        switchColor(element)
+        
         switch(value){
             case 0: //Pomodoro
-                clearStyle()
-                switchColor(element)
                 switchTime(value)
                 break
                 
             case 1: //ShortBreak
-                clearStyle()
-                switchColor(element)
                 switchTime(value)
                 break
 
             case 2: //LongBreak
-                clearStyle() 
-                switchColor(element)
                 switchTime(value)
                 break
         }
@@ -199,21 +201,23 @@ function click(element, value){
 }
 
 function switchTime(value) {
-
+    
     switch(value){
         case 0:
-            document.getElementById('time').innerHTML = timeSettings.pomodoro + ':00'
-            timer(timeSettings.pomodoro)
+            results = timeSettings.pomodoro
             break
         case 1:
-            document.getElementById('time').innerHTML = timeSettings.shortBreak + ':00'
-            timer(timeSettings.shortBreak)
+            results = timeSettings.shortBreak
             break
         case 2: 
-            document.getElementById('time').innerHTML = timeSettings.longBreak + ':00'
-            timer(timeSettings.longBreak)
+            results = timeSettings.longBreak
             break
     }
+    pause()
+    timeSettings.setTimer = results
+    document.getElementById('time').innerHTML = results + ':00'
+    console.log(timeSettings.timer)
+
 }
 
 function timeConvert(n){
@@ -231,51 +235,57 @@ function timeConvert(n){
     } else{
         results = rminutes + ':' + rseconds
     }
-    
 
+    //Set another timer value 
+    timeSettings.timer = (n / 60) 
+    
     document.getElementById('time').innerHTML = results
 }
 
-//Adicionar setTime/Color em uma única função junto com o cronometro + canvas
 
-const stopwatcher = document.getElementById('progressBar')
-let cron;
-
-let timer = function(n){
-    //to seconds 
-    let value = n * 60
+let cron = null //stopWatcher/Timer
+const timer = document.getElementById('progressBar')
+function stopWatcher(){
+    
     let running = false
     let status = document.getElementById('status') 
-
-         stopwatcher.addEventListener('click', () => {
-
-            if(!running){
-                cron = setInterval(function() {
-                    console.log(value)
     
-                    value -= 1
-                    timeConvert(value)
-    
-                    if(value === 0){
-                        clearTime(cron)
-                    }
-                }, 1000)
-                status.innerHTML = 'PAUSE'
-                running = true
-            } else{
-
-                clearTime()
-                status.innerHTML = 'START'
-                running = false
-            }
-
-        })
+    timer.addEventListener('click', () => {
+        if(!running){
+            start()
+            status.innerHTML = 'PAUSE'
+            running = true
+        } else{
+            pause()
+            status.innerHTML = 'START'
+            running = false
+        }
+    })
 }
 
-function clearTime(cron){
+function start(){
+
+    let t = timeSettings.timer
+    let value = t * 60
+    
+    cron = setInterval(function(){
+                
+        console.log(value)
+
+        value -= 1
+        timeConvert(value)
+    
+        if(value === 0){
+            pause()
+        }
+
+    }, 1000)
+}
+
+function pause(){
     clearInterval(cron)
-    console.log('teste')
 }
+
     
 
 
