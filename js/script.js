@@ -223,10 +223,9 @@ function switchTime(value) {
 
     //set time storage
     timeSettings.timeStorage = timeSettings.timer
-    
+
     document.getElementById('time').innerHTML = results + ':00'
     console.log(timeSettings.timer)
-
 }
 
 function timeConvert(n){
@@ -241,20 +240,26 @@ function timeConvert(n){
 
     if(rseconds <= 9){
         results = rminutes + ':0' + rseconds
+        titleResults = rminutes +'m:0' + rseconds + 's'
     } else{
         results = rminutes + ':' + rseconds
+        titleResults = rminutes +'m:' + rseconds + 's'
     }
+
+    //for Title
+    
 
     //Set another timer value 
     timeSettings.timer = (n / 60) 
     
-    document.getElementById('time').innerHTML = results
+    document.getElementById('time').innerHTML = results //stopwatcher
+    document.getElementById('title').innerHTML = titleResults + ' - Pomodoro' //title
 }
 
 
 let cron = null //stopWatcher
 const timer = document.getElementById('progressBar')
-const status = document.getElementById('status') 
+const status = document.getElementById('status')
 
 function stopWatcher(){
     
@@ -274,7 +279,6 @@ function stopWatcher(){
 function start(){
     let t = timeSettings.timer
     let value = t * 60
-    console.log('Essa é a bosta do valor' + timeSettings.storage)
     
     cron = setInterval(function(){
                 
