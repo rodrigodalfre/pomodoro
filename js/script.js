@@ -99,7 +99,8 @@ let timeSettings = {
     pomodoro: '25',
     shortBreak: '5',
     longBreak: '10',
-    timer: '25', 
+    timer: '25',
+    storage: '25', 
 
     set pomodoroTime (value) {
         this.pomodoro = value
@@ -115,7 +116,11 @@ let timeSettings = {
 
     set setTimer (value){
         this.timer = value
-    }
+    },
+
+    set timeStorage (value){
+        this.storage = value
+    },
 }
 
 function switchColor(element){
@@ -215,6 +220,10 @@ function switchTime(value) {
     }
     pause()
     timeSettings.setTimer = results
+
+    //set time storage
+    timeSettings.timeStorage = timeSettings.timer
+    
     document.getElementById('time').innerHTML = results + ':00'
     console.log(timeSettings.timer)
 
@@ -243,48 +252,63 @@ function timeConvert(n){
 }
 
 
-let cron = null //stopWatcher/Timer
+let cron = null //stopWatcher
 const timer = document.getElementById('progressBar')
+const status = document.getElementById('status') 
+
 function stopWatcher(){
     
     let running = false
-    let status = document.getElementById('status') 
     
     timer.addEventListener('click', () => {
         if(!running){
             start()
-            status.innerHTML = 'PAUSE'
             running = true
         } else{
             pause()
-            status.innerHTML = 'START'
             running = false
         }
     })
 }
 
 function start(){
-
     let t = timeSettings.timer
     let value = t * 60
+    console.log('Essa é a bosta do valor' + timeSettings.storage)
     
     cron = setInterval(function(){
                 
         console.log(value)
-
         value -= 1
         timeConvert(value)
     
         if(value === 0){
             pause()
+            status.innerHTML = 'RESTART'
+            timer.addEventListener('click', () => {
+                restart()
+            })
         }
 
     }, 1000)
+    status.innerHTML = 'PAUSE'
+
+    function restart(){
+        let r = timeSettings.storage * 60
+        timeConvert(r)
+    }
+
 }
 
 function pause(){
     clearInterval(cron)
+    status.innerHTML = 'START'
 }
+
+
+
+
+
 
     
 
