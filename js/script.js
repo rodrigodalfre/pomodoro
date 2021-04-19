@@ -224,6 +224,7 @@ function switchTime(value) {
     //set time storage
     timeSettings.timeStorage = timeSettings.timer
 
+    document.getElementById('title').innerHTML = 'Pomodoro'
     document.getElementById('time').innerHTML = results + ':00'
     console.log(timeSettings.timer)
 }
@@ -260,6 +261,7 @@ function timeConvert(n){
 let cron = null //stopWatcher
 const timer = document.getElementById('progressBar')
 const status = document.getElementById('status')
+const title = document.getElementById('title')
 
 function stopWatcher(){
     
