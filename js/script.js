@@ -174,7 +174,7 @@ window.addEventListener('load', () => {
     switchColor(buttonType[0])
     switchTime(0)
     selectElement()
-    stopWatcher()
+    //stopWatcher()
 });
 
 //if its second time load, reload with the color of the input radio
@@ -207,6 +207,7 @@ function click(element, value){
 
 function switchTime(value) {
     
+    
     switch(value){
         case 0:
             results = timeSettings.pomodoro
@@ -219,14 +220,16 @@ function switchTime(value) {
             break
     }
     pause()
+    running = false
     timeSettings.setTimer = results
 
     //set time storage
     timeSettings.timeStorage = timeSettings.timer
 
-    document.getElementById('title').innerHTML = 'Pomodoro'
+    title.innerHTML = 'Pomodoro'
     document.getElementById('time').innerHTML = results + ':00'
     console.log(timeSettings.timer)
+    
 }
 
 function timeConvert(n){
@@ -247,9 +250,6 @@ function timeConvert(n){
         titleResults = rminutes +'m:' + rseconds + 's'
     }
 
-    //for Title
-    
-
     //Set another timer value 
     timeSettings.timer = (n / 60) 
     
@@ -263,52 +263,63 @@ const timer = document.getElementById('progressBar')
 const status = document.getElementById('status')
 const title = document.getElementById('title')
 
-function stopWatcher(){
+// function stopWatcher(){
     
     let running = false
     
+
     timer.addEventListener('click', () => {
-        if(!running){
-            start()
-            running = true
-        } else{
-            pause()
-            running = false
+        
+        if(time !== 0){
+            if(!running){
+                start()
+                running = true
+            } else{
+                pause()
+                running = false
+            }
         }
+        
     })
-}
+// }
 
 function start(){
+    running = null 
     let t = timeSettings.timer
     let value = t * 60
+    // let restart = false
+    // if(restart === true){
+    //     document.getElementById('time').innerHTML = timeSettings.storage + ':00'
+    // }
     
     cron = setInterval(function(){
-                
-        console.log(value)
-        value -= 1
-        timeConvert(value)
-    
-        if(value === 0){
+        if(value !== 0){
+            console.log(value)
+            value -= 1
+            timeConvert(value)
+        } else {
             pause()
             status.innerHTML = 'RESTART'
-            timer.addEventListener('click', () => {
-                restart()
-            })
+            running = false
+            restart()
         }
 
     }, 1000)
     status.innerHTML = 'PAUSE'
 
-    function restart(){
-        let r = timeSettings.storage * 60
-        timeConvert(r)
-    }
+}
 
+function restart(){
+    //Valor deveria ser atribuído com Storage
+    timeSettings.setTimer = timeSettings.storage
+    document.getElementById('time').innerHTML = timeSettings.storage + ':00'
+    console.log(timeSettings.timer)
 }
 
 function pause(){
     clearInterval(cron)
     status.innerHTML = 'START'
+    
 }
 
 
