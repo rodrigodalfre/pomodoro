@@ -165,7 +165,6 @@ function setOptions() {
             progressBar()
             break
         }
-
     }
 }
 
@@ -298,8 +297,6 @@ function start(){
             value -= 1
             timeConvert(value)
         } else {
-            pause()
-            status.innerHTML = 'RESTART'
             running = false
             restart()
         }
@@ -310,10 +307,11 @@ function start(){
 }
 
 function restart(){
-    //Valor deveria ser atribuído com Storage
+    pause()
+    status.innerHTML = 'RESTART'
     timeSettings.setTimer = timeSettings.storage
     document.getElementById('time').innerHTML = timeSettings.storage + ':00'
-    console.log(timeSettings.timer)
+    title.innerHTML = 'RESTART - Pomodoro'
 }
 
 function pause(){
