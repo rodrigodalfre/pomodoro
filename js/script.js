@@ -51,7 +51,11 @@ apply.addEventListener('click', () => {
     timeSettings.shortTime = shortValue
     timeSettings.longTime = longValue
 
-    //colorSettings
+    //Clear Color on Progress Bar
+    clearPercent()
+    clearProgressBar()
+
+    //Select color to 
     selectColor(colorValue)
 
     //Set Color/Time and display.
@@ -173,6 +177,7 @@ window.addEventListener('load', () => {
     switchColor(buttonType[0])
     switchTime(0)
     selectElement()
+    progressBar()
     //stopWatcher()
 });
 
@@ -181,7 +186,6 @@ if(!setOptions()){
     let colorValue = document.querySelector('input[name="input-color"]:checked').value //Input Color
     selectColor(colorValue)
 }
-
 
 function click(element, value){
     element.addEventListener('click', () => {
@@ -206,7 +210,6 @@ function click(element, value){
 
 function switchTime(value) {
     
-    
     switch(value){
         case 0:
             results = timeSettings.pomodoro
@@ -227,7 +230,6 @@ function switchTime(value) {
 
     title.innerHTML = 'Pomodoro'
     document.getElementById('time').innerHTML = results + ':00'
-    console.log(timeSettings.timer)
     
 }
 
@@ -263,42 +265,40 @@ const status = document.getElementById('status')
 const title = document.getElementById('title')
 
 // function stopWatcher(){
-    
-    let running = false
-    
 
-    timer.addEventListener('click', () => {
-        
-        if(time !== 0){
-            if(!running){
-                start()
-                running = true
-            } else{
-                pause()
-                running = false
-            }
+let running = false
+
+
+timer.addEventListener('click', () => {
+    
+    if(time !== 0){
+        if(!running){
+            start()
+            running = true
+        } else{
+            pause()
+            running = false
         }
-        
-    })
+    }
+    
+})
 // }
 
 function start(){
+    // subProgressBar()
     running = null 
     let t = timeSettings.timer
     let value = t * 60
-    // let restart = false
-    // if(restart === true){
-    //     document.getElementById('time').innerHTML = timeSettings.storage + ':00'
-    // }
-    
+
     cron = setInterval(function(){
-        if(value !== 0){
-            console.log(value)
+        if(value != 0){
+            calcProgressBar(value)
             value -= 1
             timeConvert(value)
         } else {
             running = false
             restart()
+            console.log(value)
         }
 
     }, 1000)
@@ -317,15 +317,7 @@ function restart(){
 function pause(){
     clearInterval(cron)
     status.innerHTML = 'START'
-    
 }
-
-
-
-
-
-
-    
 
 
 let canvas = document.getElementById('progressBar')
@@ -333,28 +325,25 @@ let context = canvas.getContext('2d')
 let centerX = canvas.width / 2
 let centerY = canvas.height / 2
 let radius = 154
+let progress = 0
 
-context.lineCap = 'round'
+
+// context.beginPath()
+// context.arc(centerX, centerY, radius, 0, 2 * Math.PI)
+// context.fillStyle = 'transparent'
+// context.lineWidth = 10
+// context.strokeStyle = '#151932'
+// context.stroke()
+
 context.beginPath()
+context.lineCap = 'round'
 context.arc(centerX, centerY, radius, 0, 2 * Math.PI)
 context.fillStyle = 'transparent'
 context.lineWidth = 10
-context.strokeStyle = '#151932'
-context.stroke()
-
-context.beginPath()
-context.arc(centerX, centerY, radius, 0.5, 2 * Math.PI)
-context.fillStyle = 'transparent'
-context.lineWidth = 10
-context.shadowOffsetX = 0
-context.shadowOffsetY = 0
 context.shadowBlur = 15
 context.stroke()
 
-//progressBar(time, color)
-//Progress Bar                   
 let progressBar = function() {
-    context.clearRect(0, 0, canvas.width, canvas.height)
 
     let mainColor = colorSettings.mainColor
     let secondColor = colorSettings.secondColor
@@ -365,7 +354,62 @@ let progressBar = function() {
     
 }
 
-progressBar()
+let calc = 100
+function calcProgressBar(valor){
+
+    let timeStorage = timeSettings.storage * 60
+    
+    let porcentagemValue = (timeStorage * calc) / 100
+    let porcentagem = Math.round(porcentagemValue)
+    
+    if(valor === 1){
+        calc += 100
+    }
+
+    if(timeSettings.storage != 1){
+        if(valor == porcentagem){
+            calc -= 1
+            subProgressBar(1)
+        }
+        
+    } else{
+        if(valor == porcentagem){
+            calc -= 2
+            subProgressBar(2)
+        }
+    }
+}
+
+function subProgressBar(value){
+    let percent = (6.29 * value) / 100
+
+    progress += percent
+    
+    clearProgressBar()
+
+    context.beginPath()
+    context.arc(centerX, centerY, radius, progress, 2 * Math.PI)
+    context.stroke()
+    
+}
+
+function clearPercent(){
+    let diffCalc = 100 - calc
+
+    calc += diffCalc
+    progress = 0
+
+    context.beginPath()
+    context.arc(centerX, centerY, radius, progress, 2 * Math.PI)
+    context.stroke()
+}
+
+function clearProgressBar(){
+    context.clearRect(0, 0, canvas.width, canvas.height)
+}
+
+
+
 
 
 
