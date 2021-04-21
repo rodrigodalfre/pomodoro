@@ -148,7 +148,6 @@ function selectElement(){
     for(i = 0; i < buttonType.length; i++){
 
         click(buttonType[i], i)
-
     }
 }
 
@@ -156,7 +155,6 @@ function clearStyle() {
     for(i = 0; i < buttonType.length; i++){
 
         buttonType[i].removeAttribute("style")
-
     }
 }
 
@@ -178,7 +176,6 @@ window.addEventListener('load', () => {
     switchTime(0)
     selectElement()
     progressBar()
-    //stopWatcher()
 });
 
 //if its second time load, reload with the color of the input radio
@@ -189,6 +186,8 @@ if(!setOptions()){
 
 function click(element, value){
     element.addEventListener('click', () => {
+        clearProgressBar()
+        clearPercent()
         clearStyle()
         switchColor(element)
         
@@ -264,11 +263,7 @@ const timer = document.getElementById('progressBar')
 const status = document.getElementById('status')
 const title = document.getElementById('title')
 
-// function stopWatcher(){
-
 let running = false
-
-
 timer.addEventListener('click', () => {
     
     if(time !== 0){
@@ -282,10 +277,8 @@ timer.addEventListener('click', () => {
     }
     
 })
-// }
 
 function start(){
-    // subProgressBar()
     running = null 
     let t = timeSettings.timer
     let value = t * 60
@@ -300,10 +293,8 @@ function start(){
             restart()
             console.log(value)
         }
-
     }, 1000)
     status.innerHTML = 'PAUSE'
-
 }
 
 function restart(){
@@ -326,14 +317,6 @@ let centerX = canvas.width / 2
 let centerY = canvas.height / 2
 let radius = 154
 let progress = 0
-
-
-// context.beginPath()
-// context.arc(centerX, centerY, radius, 0, 2 * Math.PI)
-// context.fillStyle = 'transparent'
-// context.lineWidth = 10
-// context.strokeStyle = '#151932'
-// context.stroke()
 
 context.beginPath()
 context.lineCap = 'round'
