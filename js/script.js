@@ -79,6 +79,18 @@ function selectColor(color){
             colorSettings.setMainColor = '#4dff5c' //neon: green
             colorSettings.setSecondColor = '#008000' //Green
             break
+        case 'magenta':
+            colorSettings.setMainColor = '#FF00FF' //neon: magenta
+            colorSettings.setSecondColor = '#ff01ff' //Magenta
+            break
+        case 'purple':
+            colorSettings.setMainColor = '#8A2BE2' //neon: green
+            colorSettings.setSecondColor = '#9b1fe9' //Green
+            break
+        case 'yellow':
+            colorSettings.setMainColor = '#E6ED07' //neon: green
+            colorSettings.setSecondColor = '#f7f700' //Green
+            break
     }
 }
 
@@ -168,20 +180,6 @@ function setOptions() {
             break
         }
     }
-}
-
-//Window.Load first time
-window.addEventListener('load', () => {
-    switchColor(buttonType[0])
-    switchTime(0)
-    selectElement()
-    progressBar()
-});
-
-//if its second time load, reload with the color of the input radio
-if(!setOptions()){
-    let colorValue = document.querySelector('input[name="input-color"]:checked').value //Input Color
-    selectColor(colorValue)
 }
 
 function click(element, value){
@@ -392,7 +390,19 @@ function clearProgressBar(){
 }
 
 
+//Window.Load first time
+window.addEventListener('load', () => {
+    switchColor(buttonType[0])
+    switchTime(0)
+    selectElement()
+    progressBar()
+});
 
+//if its second time load, reload with the color of the input radio
+if(!setOptions()){
+    let colorValue = document.querySelector('input[name="input-color"]:checked').value //Input Color
+    selectColor(colorValue)
+}
 
 
 
