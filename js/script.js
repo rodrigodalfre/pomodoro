@@ -1,17 +1,4 @@
 
-
-// logoNeon
-
-//function action ||Mudança de action(pomodoro, shortbreak..). Alterando classe(active) e sua operação
-
-//function pomodoroClock ||Todo o calculo para a funcionalidade do relógio. + progress Bar
-//(Botão Pause/Continue)
-
-//~Bonus
-
-//Easter Egg
-
-
 //Modal & settings
 let settings = document.getElementById('gear') //Settings
 let modal = document.getElementById('modal') //Modal-Settings
@@ -60,6 +47,9 @@ apply.addEventListener('click', () => {
 
     //Set Color/Time and display.
     setOptions() 
+
+    //Theme Mode
+    switchTheme()
 
     //Close Modal
     modal.style.display = 'none'
@@ -218,6 +208,7 @@ function switchTime(value) {
             results = timeSettings.longBreak
             break
     }
+
     pause()
     running = false
     timeSettings.setTimer = results
@@ -227,7 +218,6 @@ function switchTime(value) {
 
     title.innerHTML = 'Pomodoro'
     document.getElementById('time').innerHTML = results + ':00'
-    
 }
 
 function timeConvert(n){
@@ -253,6 +243,46 @@ function timeConvert(n){
     
     document.getElementById('time').innerHTML = results //stopwatcher
     document.getElementById('title').innerHTML = titleResults + ' - Pomodoro' //title
+}
+
+//Theme Mode
+function switchTheme(){
+
+    let pomodoro = document.getElementById('pomodoro')
+    let switchM = document.getElementById('switch-mode')
+    let body = document.body.classList
+
+    if(switchM.checked){
+        themeMode('dark')
+        
+    } else {
+        themeMode('light')
+    }
+
+    function themeMode(theme) {
+
+        if(theme == 'dark'){
+            body.remove('lightmode')
+            body.add('darkmode')
+            pomodoro.classList.add('darkpomodoro')
+
+            if(!pomodoro.hasAttribute('style')){
+                setTimeout(function(){
+                    pomodoro.style.color = colorSettings.mainColor 
+                    pomodoro.style.textShadow  = '0px 0px 11px ' + colorSettings.secondColor
+                }, 2500);
+            } else {
+                pomodoro.style.color = colorSettings.mainColor 
+                pomodoro.style.textShadow  = '0px 0px 11px ' + colorSettings.secondColor
+            }
+        } 
+
+        if(theme == 'light'){
+            body.remove('darkmode')
+            pomodoro.classList.remove('darkpomodoro')
+            pomodoro.removeAttribute('style')
+        }
+    }
 }
 
 
@@ -289,7 +319,6 @@ function start(){
         } else {
             running = false
             restart()
-            console.log(value)
         }
     }, 1000)
     status.innerHTML = 'PAUSE'
@@ -371,7 +400,6 @@ function subProgressBar(value){
     context.beginPath()
     context.arc(centerX, centerY, radius, progress, 2 * Math.PI)
     context.stroke()
-    
 }
 
 function clearPercent(){
@@ -389,7 +417,6 @@ function clearProgressBar(){
     context.clearRect(0, 0, canvas.width, canvas.height)
 }
 
-
 //Window.Load first time
 window.addEventListener('load', () => {
     switchColor(buttonType[0])
@@ -403,6 +430,7 @@ if(!setOptions()){
     let colorValue = document.querySelector('input[name="input-color"]:checked').value //Input Color
     selectColor(colorValue)
 }
+
 
 
 

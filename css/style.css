@@ -10,8 +10,23 @@ html, body, div, span, h1, h2, h3, h4, h5, h6, p, img{
 }
 
 body{
-    background: #1e2140;
+    background: #1e2140; 
     font-family: 'Varela Round', sans-serif;
+}
+
+.darkmode{
+    animation-name: dark-mode;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    background-color: #0b0d17;
+}
+
+@keyframes dark-mode{
+    0% {background-color: #1e2140}
+    25% {background-color: #181a33}
+    50% {background-color: #131529}
+    75% {background-color: #0f1020}
+    100% {background-color: #0b0d17}
 }
 
 .container{
@@ -23,9 +38,26 @@ body{
     margin-top: 20px;
     text-align: center;
     font-size: 60px;
-    color: white;
     font-weight: 600;
+    cursor: pointer;
+}
+
+.pomodorocolor{
+    color: #FFFFFF;
+}
+
+.darkpomodoro {
+    animation-name: dark-pomodoro;
+    animation-duration: 1s;
+    animation-timing-function: linear;
     text-shadow: 2px 2px black;
+    color: #1e2140;
+}
+
+@keyframes dark-pomodoro{
+    0% {color: #ffffff}
+    50% {color: #78798c}
+    100% {color: #1e2140}
 }
 
 #options{
@@ -60,7 +92,6 @@ body{
 }
 
 /* Classe deveria ser feita no JS */
-
 svg {
     display: block;
     align-items: center;
@@ -105,7 +136,7 @@ svg {
 
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
+    margin: 10% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
     border-radius: 20px;
@@ -164,17 +195,73 @@ label{
     outline: none;
 }
 
+/* Dark-Mode */
+.input-darkmode input[type=checkbox]{
+    position: absolute;
+    margin-left: -9999px;
+    visibility: hidden;
+}
+
+.input-darkmode label, .input-darkmode label::before{
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+    outline: none;
+    user-select: none;
+    margin-top: -4px;
+}
+
+.switch-mode + label{
+    padding: 2px;
+    width:46px;
+    height:21px;
+    border-radius: 60px;
+}
+
+.switch-mode + label:before,
+.switch-mode + label:after {
+    display: block;
+    position: relative;
+    left: 2px;
+    top: 6px;
+    content: '';
+}
+
+.switch + label{
+    background-color: #3cbfa8;
+    right: 2px;
+    border-radius: 60px;
+    transition: all 0.4s;
+}
+
+.switch-mode + label:after {
+    padding: 1px;
+    width: 15px;
+    height: 15px;
+    background-color: #1f212e;
+    border-radius: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s;
+}
+
+.switch-mode:checked + label:after {
+    transform: translateX(25px);
+    background-color: #f5f7ff; 
+}
+
+
 /* Modal-Colors */
-.modal-colors{
+.modal-options{
     margin-top: 15px;
     padding-top: 30px;
     padding-bottom: 5px;
     border-top: 1px solid #b1b1b1;
     display: flex;
     justify-content: space-between;
+
 }
 
-.modal-colors h3{
+.h3-color{
     margin-top: 10px;
 }
 
@@ -183,20 +270,21 @@ label{
     display: none;
 }
 
-.input-colors label, .input-colors label::before{
+.input-colors label, .input-colors label:before{
     cursor: pointer;
     display: inline-block;
     vertical-align: middle;
 }
 
-.input-colors label::before {
+.input-colors label:before {
     border-radius: 50%;
     content: '';
     height: 35px;
     width: 35px;
+    
 }
 
-.input-colors input[type='radio']:checked + label::before{
+.input-colors input[type='radio']:checked + label:before{
     color: #000000;
     content: "✓";
     font-size: 15px;

@@ -7,13 +7,13 @@
     <title id="title">Pomodoro</title>
 
     <link rel="stylesheet" href="css/style.css">
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">  -->
 
 </head>
 <body>
 
     <div class="container">
-        <h1 id="pomodoro">Pomodoro</h1>
+        <h1 id="pomodoro" class="pomodorocolor">Pomodoro</h1>
+        <!-- <canvas id="pomodoro"></canvas> -->
 
         <div id="options">
             <ul>
@@ -68,25 +68,34 @@
                 </div>
 
                 <!-- Modal-Colors -->
-                <div class="modal-colors">
-                    <h3>COLOR</h3>
+                <div class="modal-options">
+                    <h3>DARK MODE</h3>
+                    <div class="input-darkmode">
+                        <input id="switch-mode" class="switch-mode switch" type="checkbox" >
+                        <label for="switch-mode"></label>
+                    </div>
+                </div>
+
+                <!-- Modal-Colors -->
+                <div class="modal-options">
+                    <h3 class="h3-color">COLOR</h3>
                     <div class="input-colors">
-                        <input id="blue" type="radio" class="input-colors blue" name="input-color" value="blue" checked>
+                        <input id="blue" type="radio" class="blue" name="input-color" value="blue" checked>
                         <label for="blue"></label>
 
-                        <input id="magenta" type="radio" class="input-colors magenta" name="input-color" value="magenta">
+                        <input id="magenta" type="radio" class="magenta" name="input-color" value="magenta">
                         <label for="magenta"></label>
 
-                        <input id="green" type="radio" class="input-colors green" name="input-color" value="green">
+                        <input id="green" type="radio" class="green" name="input-color" value="green">
                         <label for="green"></label>
                         
-                        <input id="purple" type="radio" class="input-colors purple" name="input-color" value="purple">
+                        <input id="purple" type="radio" class="purple" name="input-color" value="purple">
                         <label for="purple"></label>
 
-                        <input id="red" type="radio" class="input-colors red" name="input-color" value="red">
+                        <input id="red" type="radio" class="red" name="input-color" value="red">
                         <label for="red"></label>
           
-                        <input id="yellow" type="radio" class="input-colors yellow" name="input-color" value="yellow">
+                        <input id="yellow" type="radio" class="yellow" name="input-color" value="yellow">
                         <label for="yellow"></label>
                     </div>
                 </div>
@@ -97,10 +106,9 @@
             </div>
         </div>
         
-        
-    </div>
+</div>
     
-    <script src="js/script.js"></script>
+<script src="js/script.js"></script>
 
     
     
