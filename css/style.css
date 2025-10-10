@@ -1,40 +1,65 @@
 @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 
 
-html, body, div, span, h1, h2, h3, h4, h5, h6, p, img{  
-    margin: 0;  
-    padding: 0;  
-    border: 0;  
-    font-size: 100%;  
-    vertical-align: baseline; 
+html,
+body,
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+img {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    vertical-align: baseline;
 }
 
-body{
-    background: #1e2140; 
+body {
+    background: #1e2140;
     font-family: 'Varela Round', sans-serif;
 }
 
-.darkmode{
+.darkmode {
     animation-name: dark-mode;
     animation-duration: 2s;
     animation-timing-function: linear;
     background-color: #0b0d17;
 }
 
-@keyframes dark-mode{
-    0% {background-color: #1e2140}
-    25% {background-color: #181a33}
-    50% {background-color: #131529}
-    75% {background-color: #0f1020}
-    100% {background-color: #0b0d17}
+@keyframes dark-mode {
+    0% {
+        background-color: #1e2140
+    }
+
+    25% {
+        background-color: #181a33
+    }
+
+    50% {
+        background-color: #131529
+    }
+
+    75% {
+        background-color: #0f1020
+    }
+
+    100% {
+        background-color: #0b0d17
+    }
 }
 
-.container{
+.container {
     margin-left: auto;
     margin-right: auto;
 }
 
-#pomodoro{
+#pomodoro {
     margin-top: 20px;
     text-align: center;
     font-size: 60px;
@@ -42,7 +67,7 @@ body{
     cursor: pointer;
 }
 
-.pomodorocolor{
+.pomodorocolor {
     color: #FFFFFF;
 }
 
@@ -54,18 +79,26 @@ body{
     color: #1e2140;
 }
 
-@keyframes dark-pomodoro{
-    0% {color: #ffffff}
-    50% {color: #78798c}
-    100% {color: #1e2140}
+@keyframes dark-pomodoro {
+    0% {
+        color: #ffffff
+    }
+
+    50% {
+        color: #78798c
+    }
+
+    100% {
+        color: #1e2140
+    }
 }
 
-#options{
+#options {
     margin-top: 40px;
     text-align: center;
 }
 
-#options ul{
+#options ul {
     display: inline-block;
     padding: 8px 8px;
     margin: 0px;
@@ -79,7 +112,7 @@ body{
     display: inline;
 }
 
-.buttonType{
+.buttonType {
     color: #9c9c9c;
     background: #151932;
     border: 1px solid #151932;
@@ -87,7 +120,7 @@ body{
     padding: 15px 17px;
     -webkit-border-radius: 100px;
     border-radius: 100px;
-    cursor:pointer;
+    cursor: pointer;
     outline: none;
 }
 
@@ -103,7 +136,7 @@ svg {
     cursor: pointer;
 }
 
-#gear:hover{
+#gear:hover {
     animation-name: gear-rotate;
     /* animation-duration: infinite; */
     animation-duration: 5s;
@@ -111,17 +144,18 @@ svg {
     animation-timing-function: linear;
 }
 
-@keyframes gear-rotate{
+@keyframes gear-rotate {
     0% {
-		transform: rotate(0deg);
-	}
-	100% {
-		transform: rotate(360deg);
-	}
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /* Modal */
-.modal{
+.modal {
     display: none;
     position: fixed;
     z-index: 1;
@@ -130,28 +164,32 @@ svg {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
 }
 
 .modal-content {
     background-color: #fefefe;
-    margin: 10% auto; /* 15% from the top and centered */
+    margin: 10% auto;
+    /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
     border-radius: 20px;
     -webkit-border-radius: 20px;
-    width: 40%; /* Could be more or less, depending on screen size */
+    width: 40%;
+    /* Could be more or less, depending on screen size */
 }
 
-h3{
+h3 {
     letter-spacing: 3px;
     font-size: 15px;
     font-weight: 300;
     display: inline;
 }
 
-label{
+label {
     margin: 2px;
 }
 
@@ -163,22 +201,22 @@ label{
     border-bottom: 1px solid #b1b1b1;
 }
 
-.modal-time{
+.modal-time {
     margin-top: 15px;
 }
 
-.pomodoro-options{
+.pomodoro-options {
     margin-top: 20px;
     display: flex;
     justify-content: space-between;
 }
 
-.time-options{
-    display:flex;
+.time-options {
+    display: flex;
     flex-direction: column;
 }
 
-.time-input{
+.time-input {
     padding: 10px;
     width: 60%;
     height: 25px;
@@ -191,18 +229,19 @@ label{
 }
 
 .time-input:focus,
-.time-input:active{
+.time-input:active {
     outline: none;
 }
 
 /* Dark-Mode */
-.input-darkmode input[type=checkbox]{
+.input-darkmode input[type=checkbox] {
     position: absolute;
     margin-left: -9999px;
     visibility: hidden;
 }
 
-.input-darkmode label, .input-darkmode label::before{
+.input-darkmode label,
+.input-darkmode label::before {
     cursor: pointer;
     display: inline-block;
     vertical-align: middle;
@@ -211,15 +250,15 @@ label{
     margin-top: -4px;
 }
 
-.switch-mode + label{
+.switch-mode+label {
     padding: 2px;
-    width:46px;
-    height:21px;
+    width: 46px;
+    height: 21px;
     border-radius: 60px;
 }
 
-.switch-mode + label:before,
-.switch-mode + label:after {
+.switch-mode+label:before,
+.switch-mode+label:after {
     display: block;
     position: relative;
     left: 2px;
@@ -227,14 +266,14 @@ label{
     content: '';
 }
 
-.switch + label{
+.switch+label {
     background-color: #3cbfa8;
     right: 2px;
     border-radius: 60px;
     transition: all 0.4s;
 }
 
-.switch-mode + label:after {
+.switch-mode+label:after {
     padding: 1px;
     width: 15px;
     height: 15px;
@@ -244,24 +283,59 @@ label{
     transition: all 0.4s;
 }
 
-.switch-mode:checked + label:after {
+.switch-mode:checked+label:after {
     transform: translateX(25px);
-    background-color: #f5f7ff; 
+    background-color: #f5f7ff;
 }
 
-
 /* Modal-Colors */
-.modal-options{
+.modal-options {
     margin-top: 15px;
     padding-top: 30px;
     padding-bottom: 5px;
     border-top: 1px solid #b1b1b1;
     display: flex;
     justify-content: space-between;
-
 }
 
-.h3-color{
+.division {
+    margin-top: 15px;
+    padding-top: 30px;
+    padding-bottom: 5px;
+    border-top: 1px solid #b1b1b1;
+}
+
+.volume-control {
+    display: flex;
+    justify-content: space-around;
+}
+
+.volume-control label {
+    letter-spacing: 3px;
+    font-size: 15px;
+    font-weight: 300;
+    display: inline;
+}
+
+.styled-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    outline: none;
+}
+
+
+/* quando seleciona uma opção (highlight) */
+.styled-select option:checked {
+    background: #a275f7;
+    color: white;
+}
+
+.h3-color {
     margin-top: 10px;
 }
 
@@ -270,7 +344,8 @@ label{
     display: none;
 }
 
-.input-colors label, .input-colors label:before{
+.input-colors label,
+.input-colors label:before {
     cursor: pointer;
     display: inline-block;
     vertical-align: middle;
@@ -281,10 +356,10 @@ label{
     content: '';
     height: 35px;
     width: 35px;
-    
+
 }
 
-.input-colors input[type='radio']:checked + label:before{
+.input-colors input[type='radio']:checked+label:before {
     color: #000000;
     content: "✓";
     font-size: 15px;
@@ -294,43 +369,43 @@ label{
     vertical-align: middle;
 }
 
-.blue + label {
+.blue+label {
     background: #4D4DFF;
     border-radius: 50%;
 }
 
-.red + label {
+.red+label {
     background: #ff4d4d;
     border-radius: 50%;
 }
 
-.green + label {
+.green+label {
     background: #4dff5c;
     border-radius: 50%;
 }
 
-.purple + label {
+.purple+label {
     background: #8A2BE2;
     border-radius: 50%;
 }
 
-.magenta + label {
+.magenta+label {
     background: #FF00FF;
     border-radius: 50%;
 }
 
-.yellow + label {
+.yellow+label {
     background: #E6ED07;
     border-radius: 50%;
     /* color: #800080 */
 }
 
 /* Modal-save  */
-.modal-save{
+.modal-save {
     text-align: center;
 }
 
-.save-option{
+.save-option {
     border: none;
     height: 50px;
     width: 130px;
@@ -343,9 +418,10 @@ label{
     cursor: pointer;
     outline: none;
 }
-.save-option:hover{
+
+.save-option:hover {
     transform: scale(1.1);
-}   
+}
 
 /* Modal-Close Button */
 .close {
@@ -357,8 +433,8 @@ label{
 
 .close:hover,
 .close:focus {
-  color: black;
-  cursor: pointer;
+    color: black;
+    cursor: pointer;
 }
 
 
@@ -368,8 +444,8 @@ label{
     padding: 0;
     height: 370px;
     width: 370px;
-    background: rgb(18,22,49);
-    background: linear-gradient(0deg, rgba(18,22,49,1) 25%, rgba(41,45,82,1) 100%);
+    background: rgb(18, 22, 49);
+    background: linear-gradient(0deg, rgba(18, 22, 49, 1) 25%, rgba(41, 45, 82, 1) 100%);
     box-shadow: black;
     box-shadow: 0px 50px 100px #262a57, 0px -50px 100px #151932;
     transform: rotate(130deg);
@@ -392,7 +468,7 @@ label{
     cursor: pointer;
 }
 
-.time{
+.time {
     position: relative;
     top: 35%;
     display: inline;
@@ -401,7 +477,7 @@ label{
     letter-spacing: 1.3px;
 }
 
-.status{
+.status {
     color: white;
     position: relative;
     top: 45%;
@@ -409,7 +485,7 @@ label{
     font-weight: 400;
 }
 
-#progressBar{
+#progressBar {
     transform: rotate(269deg);
     position: relative;
     top: -105px;
