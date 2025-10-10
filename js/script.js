@@ -11,6 +11,11 @@ let longBreakAudio = document.getElementById('long-audio')
 let repeatAudio = document.getElementById('repeatAudio')
 let volumeRange = document.getElementById('volumeRange')
 
+//Time
+let pomodoroValue = document.getElementById('pomodoro-option') //Pomodoro Time
+let shortValue = document.getElementById('short-option') //Short Break Time
+let longValue = document.getElementById('long-option') //Long Break Time
+
 //Open Settings
 settings.addEventListener('click', () => {
     modal.style.display = 'block'
@@ -53,19 +58,14 @@ volumeRange.addEventListener("input", function () {
 //Apply Button & Settings
 apply.addEventListener('click', () => {
 
-    //Time
-    let pomodoroValue = document.getElementById('pomodoro-option').value //Pomodoro Time
-    let shortValue = document.getElementById('short-option').value //Short Break Time
-    let longValue = document.getElementById('long-option').value //Long Break Time
-
-
+    pauseAudio()
     //Color
     let colorValue = document.querySelector('input[name="input-color"]:checked').value //Input Color
 
     // timeSettings(pomodoroTime, shortTime, longTime)
-    timeSettings.pomodoroTime = pomodoroValue
-    timeSettings.shortTime = shortValue
-    timeSettings.longTime = longValue
+    timeSettings.pomodoroTime = pomodoroValue.value
+    timeSettings.shortTime = shortValue.value
+    timeSettings.longTime = longValue.value
 
     //Clear Color on Progress Bar
     clearPercent()
@@ -81,11 +81,11 @@ apply.addEventListener('click', () => {
     switchTheme()
 
     //Audio Settings
-    audioSettings.pomodoroAudio = pomodoroAudio.value
-    audioSettings.longBreakAudio = longBreakAudio.value
-    audioSettings.shortBreakAudio = shortBreakAudio.value
-    audioSettings.volume = volumeRange.value / 100
-    audioSettings.repeatable = repeatAudio.checked
+    audioSettings.setPomodoroAudio = pomodoroAudio.value
+    audioSettings.setLongBreakAudio = longBreakAudio.value
+    audioSettings.setShortBreakAudio = shortBreakAudio.value
+    audioSettings.setVolume = volumeRange.value / 100
+    audioSettings.setRepeatable = repeatAudio.checked
 
     //Close Modal
     modal.style.display = 'none'
@@ -123,8 +123,8 @@ function selectColor(color) {
 //Set Time & Set Color
 let colorSettings = {
 
-    mainColor: localStorage.getItem("mainColor") ?? '',
-    secondColor: localStorage.getItem("secondColor") ?? '',
+    mainColor: localStorage.getItem("mainColor") ?? '#4D4DFF',
+    secondColor: localStorage.getItem("secondColor") ?? '#0000ff',
 
     set setMainColor(value) {
         this.mainColor = value
@@ -138,34 +138,38 @@ let colorSettings = {
 }
 
 let audioSettings = {
-
-    pomodoroAudio: '',
-    shortBreakAudio: '',
-    longBreakAudio: '',
-    volume: 0.5,
-    repeatable: false,
-
+    pomodoroAudio: localStorage.getItem("pomodoroAudio") ?? "",
+    shortBreakAudio: localStorage.getItem("shortBreakAudio") ?? "",
+    longBreakAudio: localStorage.getItem("longBreakAudio") ?? "",
+    volume: parseFloat(localStorage.getItem("volume")) || 0.5,
+    repeatable: localStorage.getItem("repeatable") || 'false',
 
     set setPomodoroAudio(value) {
-        this.pomodoroAudio = value
+        this.pomodoroAudio = value;
+        localStorage.setItem("pomodoroAudio", value);
+        console.log(value)
     },
 
     set setShortBreakAudio(value) {
-        this.shortBreakAudio = value
+        this.shortBreakAudio = value;
+        localStorage.setItem("shortBreakAudio", value);
     },
 
     set setLongBreakAudio(value) {
-        this.longBreakAudio = value
+        this.longBreakAudio = value;
+        localStorage.setItem("longBreakAudio", value);
     },
 
     set setVolume(value) {
-        this.volume = value
+        this.volume = value;
+        localStorage.setItem("volume", value.toString());
     },
 
     set setRepeatable(value) {
-        this.repeatable = value
+        this.repeatable = value;
+        localStorage.setItem("repeatable", value);
     }
-}
+};
 
 let timeSettings = {
 
@@ -206,6 +210,7 @@ function switchColor(element) {
     let mainColor = colorSettings.mainColor
 
     let applyButton = document.getElementById('save-option')
+    
 
     //class active(pomodoro, shortBreak, longBreak)
     element.style.background = mainColor
@@ -246,18 +251,17 @@ function setOptions() {
 
 function getAudioFromOption() {
     for (i = 0; i < buttonType.length; i++) {
-
         if (buttonType[i].hasAttribute('Style')) {
             switch (buttonType[i].value) {
-                case 0:
+                case '0':
                     playAudio(audioSettings.pomodoroAudio)
                     break
 
-                case 1:
+                case '1':
                     playAudio(audioSettings.shortBreakAudio)
                     break
 
-                case 2:
+                case '2':
                     playAudio(audioSettings.longBreakAudio)
                     break
             }
@@ -381,9 +385,9 @@ function switchTheme() {
 
 
 let cron = null //stopWatcher
-const timer = document.getElementById('progressBar')
-const status = document.getElementById('status')
-const title = document.getElementById('title')
+let timer = document.getElementById('progressBar')
+let statusHtml = document.getElementById('status')
+let title = document.getElementById('title')
 
 let running = false
 timer.addEventListener('click', () => {
@@ -397,42 +401,43 @@ timer.addEventListener('click', () => {
             running = false
         }
     }
-
 })
 
-
 function start() {
-    running = null
-    let t = timeSettings.timer
-    let value = t * 60
-
-    cron = setInterval(function () {
+    pauseAudio();
+    running = null;
+    let t = timeSettings.timer;
+    let value = t * 60;
+    
+    cron = setInterval(function() {
         if (value != 0) {
-            calcProgressBar(value)
-            value -= 1
-            timeConvert(value)
+            calcProgressBar(value);
+            value -= 1;
+            timeConvert(value);
         } else {
-            running = false
-            restart()
-            playAudio(audioSettings.pomodoroAudio)
-            console.log('terminou')
+            running = false;
+            restart();
+            getAudioFromOption();
+            console.log('terminou');
         }
-    }, 1000)
-    status.innerHTML = 'PAUSE'
+    }, 1000);
+    
+    statusHtml.innerHTML = 'PAUSE';
 }
 
 function restart() {
-    pause()
-    status.innerHTML = 'RESTART'
-    timeSettings.setTimer = timeSettings.storage
-    document.getElementById('time').innerHTML = timeSettings.storage + ':00'
-    title.innerHTML = 'RESTART - Pomodoro'
+    pause();
+    timeSettings.setTimer = timeSettings.storage;
+    document.getElementById('time').innerHTML = timeSettings.storage + ':00';
+    title.innerHTML = 'RESTART - Pomodoro';
+    statusHtml.innerHTML = 'RESTART';
 }
 
 function pause() {
-    clearInterval(cron)
-    status.innerHTML = 'START'
+    clearInterval(cron);
+    statusHtml.innerHTML = 'START';
 }
+
 
 
 let canvas = document.getElementById('progressBar')
@@ -516,23 +521,37 @@ function clearProgressBar() {
 
 let currentAudio = null;
 let stopTimeout = null;
+let repeatInterval = null;
 
 function playAudio(value) {
     if (currentAudio) {
         currentAudio.pause();
         currentAudio.currentTime = 0;
         clearTimeout(stopTimeout);
+        clearInterval(repeatInterval);
     }
 
-    // cria o novo áudio
+    const repeat = audioSettings.repeatable;
+
     currentAudio = new Audio(`audios/${value}.mp3`);
     currentAudio.volume = audioSettings.volume;
     currentAudio.play();
 
-    stopTimeout = setTimeout(() => {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-    }, 4000);
+    if (repeat) {
+        repeatInterval = setInterval(() => {
+            if (currentAudio) {
+                currentAudio.currentTime = 0;
+                currentAudio.play();
+            }
+        }, 4000);
+    } else {
+        stopTimeout = setTimeout(() => {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+        }, 4000);
+    }
 }
 
 function pauseAudio() {
@@ -540,8 +559,11 @@ function pauseAudio() {
         currentAudio.pause();
         currentAudio.currentTime = 0;
         clearTimeout(stopTimeout);
+        clearInterval(repeatInterval);
+        repeatInterval = null;
     }
 }
+
 
 //Window.Load first time
 window.addEventListener('load', () => {
@@ -549,8 +571,11 @@ window.addEventListener('load', () => {
     switchTime(0)
     selectElement()
     progressBar()
-});
 
+    pomodoroValue.value = timeSettings.pomodoro
+    shortValue.value = timeSettings.shortBreak
+    longValue.value = timeSettings.longBreak
+});
 
 
 // //if its second time load, reload with the color of the input radio
