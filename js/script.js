@@ -210,7 +210,7 @@ function switchColor(element) {
     let mainColor = colorSettings.mainColor
 
     let applyButton = document.getElementById('save-option')
-    
+
 
     //class active(pomodoro, shortBreak, longBreak)
     element.style.background = mainColor
@@ -345,41 +345,44 @@ function timeConvert(n) {
 
 //Theme Mode
 function switchTheme() {
-
-    let pomodoro = document.getElementById('pomodoro')
     let switchM = document.getElementById('switch-mode')
-    let body = document.body.classList
 
     if (switchM.checked) {
-        themeMode('dark')
-
+        localStorage.setItem('theme', 'dark')
+        themeMode()
     } else {
-        themeMode('light')
+        localStorage.setItem('theme', 'light')
+        themeMode()
     }
+}
 
-    function themeMode(theme) {
+function themeMode() {
+    let switchM = document.getElementById('switch-mode')
+    let theme = localStorage.getItem('theme')
+    let pomodoro = document.getElementById('pomodoro')
+    let body = document.body.classList
 
-        if (theme == 'dark') {
-            body.remove('lightmode')
-            body.add('darkmode')
-            pomodoro.classList.add('darkpomodoro')
+    if (theme == 'dark') {
+        body.remove('lightmode')
+        body.add('darkmode')
+        pomodoro.classList.add('darkpomodoro')
+        switchM.checked = true
 
-            if (!pomodoro.hasAttribute('style')) {
-                setTimeout(function () {
-                    pomodoro.style.color = colorSettings.mainColor
-                    pomodoro.style.textShadow = '0px 0px 11px ' + colorSettings.secondColor
-                }, 2500);
-            } else {
+        if (!pomodoro.hasAttribute('style')) {
+            setTimeout(function () {
                 pomodoro.style.color = colorSettings.mainColor
                 pomodoro.style.textShadow = '0px 0px 11px ' + colorSettings.secondColor
-            }
+            }, 2500);
+        } else {
+            pomodoro.style.color = colorSettings.mainColor
+            pomodoro.style.textShadow = '0px 0px 11px ' + colorSettings.secondColor
         }
+    }
 
-        if (theme == 'light') {
-            body.remove('darkmode')
-            pomodoro.classList.remove('darkpomodoro')
-            pomodoro.removeAttribute('style')
-        }
+    if (theme == 'light') {
+        body.remove('darkmode')
+        pomodoro.classList.remove('darkpomodoro')
+        pomodoro.removeAttribute('style')
     }
 }
 
@@ -408,8 +411,8 @@ function start() {
     running = null;
     let t = timeSettings.timer;
     let value = t * 60;
-    
-    cron = setInterval(function() {
+
+    cron = setInterval(function () {
         if (value != 0) {
             calcProgressBar(value);
             value -= 1;
@@ -421,7 +424,7 @@ function start() {
             console.log('terminou');
         }
     }, 1000);
-    
+
     statusHtml.innerHTML = 'PAUSE';
 }
 
@@ -567,10 +570,12 @@ function pauseAudio() {
 
 //Window.Load first time
 window.addEventListener('load', () => {
+
     switchColor(buttonType[0])
     switchTime(0)
     selectElement()
     progressBar()
+    themeMode()
 
     pomodoroValue.value = timeSettings.pomodoro
     shortValue.value = timeSettings.shortBreak
