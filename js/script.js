@@ -94,35 +94,43 @@ apply.addEventListener('click', () => {
 function selectColor(color) {
     switch (color) {
         case 'blue':
-            colorSettings.setMainColor = '#4D4DFF' //neon: blue
-            colorSettings.setSecondColor = '#0000ff' //Blue
-            break
+            colorSettings.setMainColor = '#4D4DFF'; // neon: blue
+            colorSettings.setSecondColor = '#0000ff'; // Blue
+            colorSettings.setColorName = 'blue'
+            break;
         case 'red':
-            colorSettings.setMainColor = '#ff4d4d' //neon: red
-            colorSettings.setSecondColor = '#ff0000' //Red
-            break
+            colorSettings.setMainColor = '#ff4d4d'; // neon: red
+            colorSettings.setSecondColor = '#ff0000'; // Red
+            colorSettings.setColorName = 'red'
+            break;
         case 'green':
-            colorSettings.setMainColor = '#4dff5c' //neon: green
-            colorSettings.setSecondColor = '#008000' //Green
-            break
+            colorSettings.setMainColor = '#4dff5c'; // neon: green
+            colorSettings.setSecondColor = '#008000'; // Green
+            colorSettings.setColorName = 'green'
+            break;
         case 'magenta':
-            colorSettings.setMainColor = '#FF00FF' //neon: magenta
-            colorSettings.setSecondColor = '#ff01ff' //Magenta
-            break
+            colorSettings.setMainColor = '#FF00FF'; // neon: magenta
+            colorSettings.setSecondColor = '#ff01ff'; // Magenta
+            colorSettings.setColorName = 'magenta'
+            break;
         case 'purple':
-            colorSettings.setMainColor = '#8A2BE2' //neon: green
-            colorSettings.setSecondColor = '#9b1fe9' //Green
-            break
+            colorSettings.setMainColor = '#8A2BE2'; // neon: purple
+            colorSettings.setSecondColor = '#9b1fe9'; // Purple
+            colorSettings.setColorName = 'purple'
+            break;
         case 'yellow':
-            colorSettings.setMainColor = '#E6ED07' //neon: green
-            colorSettings.setSecondColor = '#f7f700' //Green
-            break
+            colorSettings.setMainColor = '#E6ED07'; // neon: yellow
+            colorSettings.setSecondColor = '#f7f700'; // Yellow
+            colorSettings.setColorName = 'yellow'
+            break;
     }
 }
+
 
 //Set Time & Set Color
 let colorSettings = {
 
+    colorName: localStorage.getItem("colorName") ?? 'blue',
     mainColor: localStorage.getItem("mainColor") ?? '#4D4DFF',
     secondColor: localStorage.getItem("secondColor") ?? '#0000ff',
 
@@ -134,6 +142,11 @@ let colorSettings = {
     set setSecondColor(value) {
         this.secondColor = value
         localStorage.setItem("secondColor", value)
+    },
+
+    set setColorName(value) {
+        this.colorName = value
+        localStorage.setItem('colorName', value)
     }
 }
 
@@ -147,7 +160,6 @@ let audioSettings = {
     set setPomodoroAudio(value) {
         this.pomodoroAudio = value;
         localStorage.setItem("pomodoroAudio", value);
-        console.log(value)
     },
 
     set setShortBreakAudio(value) {
@@ -206,6 +218,10 @@ let timeSettings = {
 };
 
 function switchColor(element) {
+    console.log(element)
+    for (i = 0; element.length; i++) {
+
+    }
 
     let mainColor = colorSettings.mainColor
 
@@ -237,10 +253,27 @@ function clearStyle() {
     }
 }
 
+function setChecked() {
+    let inputs = document.querySelectorAll('.input-colors input')
+
+    for (let i = 0; i < inputs.length; i++) {
+        let input = inputs[i]
+
+        // Verifica se a classe do input é igual ao color salvo
+        if (input.classList.contains(colorSettings.colorName)) {
+            input.checked = true
+        } else {
+            input.checked = false
+        }
+    }
+
+}
+
 function setOptions() {
     for (i = 0; i < buttonType.length; i++) {
 
         if (buttonType[i].hasAttribute('Style')) {
+            setChecked()
             switchColor(buttonType[i])
             switchTime(i)
             progressBar()
@@ -576,6 +609,7 @@ window.addEventListener('load', () => {
     selectElement()
     progressBar()
     themeMode()
+    setChecked()
 
     pomodoroValue.value = timeSettings.pomodoro
     shortValue.value = timeSettings.shortBreak
