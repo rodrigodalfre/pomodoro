@@ -80,6 +80,8 @@ apply.addEventListener('click', () => {
     //Theme Mode
     switchTheme()
 
+    //Icon Options
+    toggleFavicon(true)
 
     //Audio Settings
     audioSettings.setVolume = volumeRange.value / 100
@@ -119,7 +121,7 @@ function selectColor(color) {
         case 'yellow':
             colorSettings.setMainColor = '#E6ED07'; // neon: yellow
             colorSettings.setSecondColor = '#f7f700'; // Yellow
-            colorSettings.setColorName = 'yellow'
+            colorSettings.setColorName = 'DarkOrange'
             break;
     }
 }
@@ -353,7 +355,7 @@ function click(element, value) {
 }
 
 function switchTime(value) {
-
+    pauseAudio();
     switch (value) {
         case 0:
             results = timeSettings.pomodoro
@@ -477,6 +479,7 @@ function start() {
             value -= 1;
             timeConvert(value);
         } else {
+            toggleFavicon(false)
             running = false;
             restart();
             getAudioFromOption();
@@ -626,6 +629,41 @@ function pauseAudio() {
     }
 }
 
+// ICON
+const svgClock = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <circle cx="16" cy="16" r="14" fill="none" stroke="CURRENT_COLOR" stroke-width="2"/>
+  <path d="M16 8 L16 16 L20 20" fill="none" stroke="CURRENT_COLOR" stroke-width="2" stroke-linecap="round"/>
+</svg>`;
+
+const svgChecked = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <circle cx="16" cy="16" r="14" fill="CURRENT_COLOR"/>
+  <path d="M9 16 L13 20 L23 10" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`;
+
+function setFavicon(svg, color) {
+    const coloredSvg = svg.replace(/CURRENT_COLOR/g, color);
+    const url = `data:image/svg+xml;base64,${btoa(coloredSvg)}`;
+
+    let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+    link.type = 'image/svg+xml';
+    link.rel = 'icon';
+    link.href = url;
+
+    if (!document.querySelector("link[rel*='icon']")) {
+        document.head.appendChild(link);
+    }
+}
+
+function toggleFavicon(isChecked) {
+    const color = colorSettings?.mainColor ?? 'blue';
+
+    if (!isChecked) {
+        setFavicon(svgChecked, color);
+    } else {
+        setFavicon(svgClock, color); // Mudei para preto para melhor visibilidade
+    }
+}
+
 
 //Window.Load first time
 window.addEventListener('load', () => {
@@ -637,12 +675,12 @@ window.addEventListener('load', () => {
     themeMode()
     setChecked()
     setupAudioSelects()
+    toggleFavicon(true)
 
     pomodoroValue.value = timeSettings.pomodoro
     shortValue.value = timeSettings.shortBreak
     longValue.value = timeSettings.longBreak
 });
-
 
 // //if its second time load, reload with the color of the input radio
 // if(!setOptions()){
