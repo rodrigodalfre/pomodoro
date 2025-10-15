@@ -80,10 +80,8 @@ apply.addEventListener('click', () => {
     //Theme Mode
     switchTheme()
 
+
     //Audio Settings
-    audioSettings.setPomodoroAudio = pomodoroAudio.value
-    audioSettings.setLongBreakAudio = longBreakAudio.value
-    audioSettings.setShortBreakAudio = shortBreakAudio.value
     audioSettings.setVolume = volumeRange.value / 100
     audioSettings.setRepeatable = repeatAudio.checked
 
@@ -218,10 +216,9 @@ let timeSettings = {
 };
 
 function switchColor(element) {
-    console.log(element)
-    for (i = 0; element.length; i++) {
+    // for (i = 0; element.length; i++) {
 
-    }
+    // }
 
     let mainColor = colorSettings.mainColor
 
@@ -266,8 +263,37 @@ function setChecked() {
             input.checked = false
         }
     }
-
 }
+
+function setupAudioSelects() {
+    let selects = document.querySelectorAll(".pomodoro-options select");
+
+    for (let i = 0; i < selects.length; i++) {
+        let select = selects[i];
+
+        if (select.id === "pomodoro-audio") {
+            select.value = audioSettings.pomodoroAudio;
+        } else if (select.id === "short-audio") {
+            select.value = audioSettings.shortBreakAudio;
+        } else if (select.id === "long-audio") {
+            select.value = audioSettings.longBreakAudio;
+        }
+
+        select.addEventListener("change", function () {
+            let value = this.value;
+            console.log('passou por aqui')
+            console.log(this)
+            if (this.id === "pomodoro-audio") {
+                audioSettings.setPomodoroAudio = value;
+            } else if (this.id === "short-audio") {
+                audioSettings.setShortBreakAudio = value;
+            } else if (this.id === "long-audio") {
+                audioSettings.setLongBreakAudio = value;
+            }
+        });
+    }
+}
+
 
 function setOptions() {
     for (i = 0; i < buttonType.length; i++) {
@@ -610,6 +636,7 @@ window.addEventListener('load', () => {
     progressBar()
     themeMode()
     setChecked()
+    setupAudioSelects()
 
     pomodoroValue.value = timeSettings.pomodoro
     shortValue.value = timeSettings.shortBreak
@@ -622,10 +649,3 @@ window.addEventListener('load', () => {
 //     let colorValue = document.querySelector('input[name="input-color"]:checked').value //Input Color
 //     selectColor(colorValue)
 // }
-
-
-
-
-
-
-
