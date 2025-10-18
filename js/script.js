@@ -97,31 +97,37 @@ function selectColor(color) {
             colorSettings.setMainColor = '#4D4DFF'; // neon: blue
             colorSettings.setSecondColor = '#0000ff'; // Blue
             colorSettings.setColorName = 'blue'
+            colorSettings.setSecondNameColor = 'DodgerBlue'
             break;
         case 'red':
             colorSettings.setMainColor = '#ff4d4d'; // neon: red
             colorSettings.setSecondColor = '#ff0000'; // Red
             colorSettings.setColorName = 'red'
+            colorSettings.setSecondNameColor = 'Crimson'
             break;
         case 'green':
             colorSettings.setMainColor = '#4dff5c'; // neon: green
             colorSettings.setSecondColor = '#008000'; // Green
             colorSettings.setColorName = 'green'
+            colorSettings.setSecondNameColor = 'LimeGreen'
             break;
         case 'magenta':
             colorSettings.setMainColor = '#FF00FF'; // neon: magenta
             colorSettings.setSecondColor = '#ff01ff'; // Magenta
             colorSettings.setColorName = 'magenta'
+            colorSettings.setSecondNameColor = 'Magenta'
             break;
         case 'purple':
             colorSettings.setMainColor = '#8A2BE2'; // neon: purple
             colorSettings.setSecondColor = '#9b1fe9'; // Purple
             colorSettings.setColorName = 'purple'
+            colorSettings.setSecondNameColor = 'BlueViolet'
             break;
         case 'yellow':
             colorSettings.setMainColor = '#E6ED07'; // neon: yellow
             colorSettings.setSecondColor = '#f7f700'; // Yellow
-            colorSettings.setColorName = 'DarkOrange'
+            colorSettings.setColorName = 'yellow'
+            colorSettings.setSecondNameColor = 'Gold'
             break;
     }
 }
@@ -131,12 +137,18 @@ function selectColor(color) {
 let colorSettings = {
 
     colorName: localStorage.getItem("colorName") ?? 'blue',
+    secondNameColor: localStorage.getItem("secondNameColor") ?? 'DodgerBlue',
     mainColor: localStorage.getItem("mainColor") ?? '#4D4DFF',
     secondColor: localStorage.getItem("secondColor") ?? '#0000ff',
 
     set setMainColor(value) {
         this.mainColor = value
         localStorage.setItem("mainColor", value);
+    },
+
+    set setSecondNameColor(value) {
+        this.secondNameColor = value
+        localStorage.setItem("secondNameColor", value)
     },
 
     set setSecondColor(value) {
@@ -664,7 +676,7 @@ function setFavicon(svg, color) {
 }
 
 function toggleFavicon(isChecked) {
-    const color = colorSettings?.mainColor ?? 'blue';
+    const color = colorSettings?.secondNameColor ?? 'RoyalBlue';
 
     if (!isChecked) {
         setFavicon(svgChecked, color);
