@@ -235,8 +235,6 @@ function switchColor(element) {
 
     let applyButton = document.getElementById('save-option')
 
-
-    //class active(pomodoro, shortBreak, longBreak)
     element.style.background = mainColor
     element.style.border = '1px solid' + mainColor
     element.style.color = '#151932'
@@ -627,14 +625,14 @@ function playAudio(value) {
                 currentAudio.currentTime = 0;
                 currentAudio.play();
             }
-        }, 4000);
+        }, 10000);
     } else {
         stopTimeout = setTimeout(() => {
             if (currentAudio) {
                 currentAudio.pause();
                 currentAudio.currentTime = 0;
             }
-        }, 4000);
+        }, 10000);
     }
 }
 
@@ -702,9 +700,3 @@ window.addEventListener('load', () => {
     shortValue.value = timeSettings.shortBreak
     longValue.value = timeSettings.longBreak
 });
-
-// //if its second time load, reload with the color of the input radio
-// if(!setOptions()){
-//     let colorValue = document.querySelector('input[name="input-color"]:checked').value //Input Color
-//     selectColor(colorValue)
-// }
