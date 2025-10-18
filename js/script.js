@@ -218,9 +218,6 @@ let timeSettings = {
 };
 
 function switchColor(element) {
-    // for (i = 0; element.length; i++) {
-
-    // }
 
     let mainColor = colorSettings.mainColor
 
@@ -305,6 +302,7 @@ function setOptions() {
             switchColor(buttonType[i])
             switchTime(i)
             progressBar()
+            pauseAudio()
             break
         }
     }
@@ -448,42 +446,51 @@ function themeMode() {
 }
 
 
-let cron = null //stopWatcher
-let timer = document.getElementById('progressBar')
-let statusHtml = document.getElementById('status')
-let title = document.getElementById('title')
+let cron = null; //stopWatcher
+let timer = document.getElementById('progressBar');
+let statusHtml = document.getElementById('status');
+let title = document.getElementById('title');
 
-let running = false
+let running = false;
+let finished = false; 
+
 timer.addEventListener('click', () => {
-
-    if (time !== 0) {
-        if (!running) {
-            start()
-            running = true
-        } else {
-            pause()
-            running = false
-        }
+    if (finished) {
+        pauseAudio();
+        toggleFavicon(true);
+        finished = false;
+        statusHtml.innerHTML = 'START';
+        title.innerHTML = 'Pomodoro';
+        return;
     }
-})
+
+    if (!running) {
+        start();
+        running = true;
+    } else {
+        pause();
+        running = false;
+    }
+});
 
 function start() {
     pauseAudio();
-    running = null;
+    running = true;
     let t = timeSettings.timer;
     let value = t * 60;
 
     cron = setInterval(function () {
-        if (value != 0) {
+        if (value > 0) {
             calcProgressBar(value);
             value -= 1;
             timeConvert(value);
         } else {
-            toggleFavicon(false)
+            clearInterval(cron);
             running = false;
+            finished = true;
             restart();
             getAudioFromOption();
-            console.log('terminou');
+            toggleFavicon(false);
         }
     }, 1000);
 
@@ -501,8 +508,8 @@ function restart() {
 function pause() {
     clearInterval(cron);
     statusHtml.innerHTML = 'START';
+    toggleFavicon(true);
 }
-
 
 
 let canvas = document.getElementById('progressBar')
@@ -644,14 +651,16 @@ function setFavicon(svg, color) {
     const coloredSvg = svg.replace(/CURRENT_COLOR/g, color);
     const url = `data:image/svg+xml;base64,${btoa(coloredSvg)}`;
 
-    let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-    link.type = 'image/svg+xml';
-    link.rel = 'icon';
-    link.href = url;
+    // 🔹 Remove todos os favicons antigos
+    document.querySelectorAll("link[rel*='icon']").forEach(link => link.remove());
 
-    if (!document.querySelector("link[rel*='icon']")) {
-        document.head.appendChild(link);
-    }
+    // 🔹 Cria o novo favicon limpo
+    const newLink = document.createElement('link');
+    newLink.type = 'image/svg+xml';
+    newLink.rel = 'icon';
+    newLink.href = url;
+
+    document.head.appendChild(newLink);
 }
 
 function toggleFavicon(isChecked) {
@@ -660,7 +669,7 @@ function toggleFavicon(isChecked) {
     if (!isChecked) {
         setFavicon(svgChecked, color);
     } else {
-        setFavicon(svgClock, color); // Mudei para preto para melhor visibilidade
+        setFavicon(svgClock, color); 
     }
 }
 
